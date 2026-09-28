@@ -1,0 +1,8 @@
+{
+  "name": "ourpulse",
+  "description": "OurPulse: tiny pulses for teams and agents",
+  "owner": { "name": "Niki Dimitrov" },
+  "plugins": [
+    { "name": "ourpulse", "source": "./", "description": "Ask a group of humans a question with an OurPulse pulse and continue with their answers." }
+  ]
+}
