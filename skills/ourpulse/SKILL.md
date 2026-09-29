@@ -8,7 +8,7 @@ description: Ask a group of humans a question with an OurPulse survey (a "pulse"
 OurPulse is a REST API. The helper `ourpulse.sh` next to this file wraps the calls and handles the key.
 Run it as `bash <this skill dir>/ourpulse.sh …`.
 
-Base URL: `$OURPULSE_URL`, default `https://pulse.1153nikidimitrov.workers.dev`.
+Base URL: `$OURPULSE_URL`, default `https://ourpulse.click`.
 Full API reference: `docs/agents.md` in the OurPulse repo, or `GET $OURPULSE_URL/api/surveys/:id` for the live shape.
 
 ## Setup check

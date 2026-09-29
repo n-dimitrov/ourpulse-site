@@ -3,7 +3,7 @@
 # Key: OURPULSE_API_KEY if set, else the file written by `ourpulse.sh login`.
 # OURPULSE_URL defaults to production.
 set -euo pipefail
-BASE="${OURPULSE_URL:-https://pulse.1153nikidimitrov.workers.dev}"
+BASE="${OURPULSE_URL:-https://ourpulse.click}"
 HOST="$(printf %s "$BASE" | sed -E 's#^[a-z]+://##; s#[/:].*$##')"
 KEY_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/ourpulse"
 KEY_FILE="$KEY_DIR/$HOST.key"

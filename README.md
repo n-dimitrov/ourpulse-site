@@ -1,6 +1,6 @@
 # OurPulse skill for Claude Code
 
-Ask a group of humans a question from Claude Code, hand them a link and a QR code, and continue with their answers as data. Runs against https://pulse.1153nikidimitrov.workers.dev.
+Ask a group of humans a question from Claude Code, hand them a link and a QR code, and continue with their answers as data. Runs against https://ourpulse.click.
 
 ## Install
 
@@ -21,7 +21,7 @@ npx skills add n-dimitrov/ourpulse-skill -g
 
 Nothing to configure. The first time you say "ask the team …" the skill runs `ourpulse.sh login`, which opens
 the browser on an approval page. Sign in with Google, press Approve, and the key is saved to
-`~/.config/ourpulse/`. Revoke it any time at https://pulse.1153nikidimitrov.workers.dev/me/keys.
+`~/.config/ourpulse/`. Revoke it any time at https://ourpulse.click/me/keys.
 `ourpulse.sh logout` forgets the local copy. Setting `OURPULSE_API_KEY` overrides the saved key, for CI.
 
 ## Use
