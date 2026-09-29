@@ -17,13 +17,12 @@ Or with the community skills CLI, globally:
 npx skills add n-dimitrov/ourpulse-skill -g
 ```
 
-## Set up a key
+## Sign in
 
-1. Sign in at https://pulse.1153nikidimitrov.workers.dev/me/keys and create a key. The page has a "Copy export line" button.
-2. Put `export OURPULSE_API_KEY=pk_...` in your shell profile, or add it to the `env` block of `~/.claude/settings.json`.
-3. Restart Claude Code.
-
-If the key is missing the skill tells you these steps itself.
+Nothing to configure. The first time you say "ask the team …" the skill runs `ourpulse.sh login`, which opens
+the browser on an approval page. Sign in with Google, press Approve, and the key is saved to
+`~/.config/ourpulse/`. Revoke it any time at https://pulse.1153nikidimitrov.workers.dev/me/keys.
+`ourpulse.sh logout` forgets the local copy. Setting `OURPULSE_API_KEY` overrides the saved key, for CI.
 
 ## Use
 

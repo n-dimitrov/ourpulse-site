@@ -5,20 +5,20 @@ description: Ask a group of humans a question with an OurPulse survey (a "pulse"
 
 # OurPulse: tiny surveys ("pulses") for teams and agents
 
-OurPulse is a REST API. Every call is `curl` with `Authorization: Bearer $OURPULSE_API_KEY`.
-The helper `ourpulse.sh` next to this file wraps the calls. Run it as `bash <this skill dir>/ourpulse.sh …`.
+OurPulse is a REST API. The helper `ourpulse.sh` next to this file wraps the calls and handles the key.
+Run it as `bash <this skill dir>/ourpulse.sh …`.
 
 Base URL: `$OURPULSE_URL`, default `https://pulse.1153nikidimitrov.workers.dev`.
 Full API reference: `docs/agents.md` in the OurPulse repo, or `GET $OURPULSE_URL/api/surveys/:id` for the live shape.
 
 ## Setup check
 
-Before anything else run `ourpulse.sh check`. Exit 0 means go on. Otherwise stop and relay its message,
-which says exactly what to do: create a key at `$OURPULSE_URL/me/keys` (the page has a "Copy export
-line" button), put `export OURPULSE_API_KEY=pk_...` in the shell profile or in the `env` block of
-`~/.claude/settings.json`, then restart the session. Offer to open the keys page or to add the `env`
-entry to the settings file once the user has put the key there themselves. Never ask the user to
-paste the key into chat, and never write a key value you were shown into a file.
+Before anything else run `ourpulse.sh check`. Exit 0 means go on. Otherwise run `ourpulse.sh login`: it opens
+the browser on an approval page (and prints the link in case the browser did not open), waits up to ten
+minutes for the user to sign in with Google and press Approve, then saves the key under `~/.config/ourpulse/`.
+While it runs, tell the user in one line to approve in the browser. When it exits 0, continue with the task in
+the same turn; nothing needs restarting. The key never appears in the terminal output, and you never need to
+see it: do not ask the user to paste a key into chat.
 
 ## The loop
 
