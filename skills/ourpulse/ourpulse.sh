@@ -75,8 +75,17 @@ case "${1:-}" in
     api -X POST "$BASE/api/surveys/$2/$1" ;;
   reopen)   # reopen <id> [days]
     api -X POST "$BASE/api/surveys/$2/reopen" -d "{\"days\": ${3:-7}}" ;;
+  schedule) # schedule <id> <closes_at-ms|-> [opens_at-ms]   -> set exact open/close instants
+    parts=""; [ "${3:--}" != - ] && parts="\"closes_at\": $3"
+    [ -n "${4:-}" ] && parts="${parts:+$parts, }\"opens_at\": $4"
+    api -X PATCH "$BASE/api/surveys/$2" -d "{$parts}" ;;
   delete)   # delete <id>
     api -X DELETE "$BASE/api/surveys/$2" -o /dev/null -w "%{http_code}\n" ;;
+  invite)   # invite <id>   -> prints invite_url and opens it in the default browser (TV / projector page)
+    url=$(api "$BASE/api/surveys/$2" | python3 -c 'import sys,json; print(json.load(sys.stdin).get("invite_url",""))')
+    [ -n "$url" ] || { echo "no such pulse" >&2; exit 1; }
+    echo "$url"
+    if command -v open >/dev/null 2>&1; then open "$url"; elif command -v xdg-open >/dev/null 2>&1; then xdg-open "$url" >/dev/null 2>&1; fi ;;
   wait)     # wait <id> [interval-seconds]  -> blocks until closed, prints results
     id="$2"; every="${3:-60}"
     while :; do
@@ -87,6 +96,6 @@ case "${1:-}" in
       sleep "$every"
     done ;;
   *)
-    echo "usage: ourpulse.sh login | logout | check | create <file|-> | get <id> | list | results <id> | csv <id> | wait <id> [secs]" >&2
-    echo "       ourpulse.sh pause|resume|close|reset <id> | reopen <id> [days] | delete <id>" >&2; exit 2 ;;
+    echo "usage: ourpulse.sh login | logout | check | create <file|-> | get <id> | list | results <id> | csv <id> | invite <id> | wait <id> [secs]" >&2
+    echo "       ourpulse.sh pause|resume|close|reset <id> | reopen <id> [days] | schedule <id> <closes-ms|-> [opens-ms] | delete <id>" >&2; exit 2 ;;
 esac
