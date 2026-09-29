@@ -1,7 +1,7 @@
 {
   "name": "ourpulse",
   "displayName": "OurPulse",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Ask a group of humans a question with an OurPulse pulse and continue with their answers.",
   "author": { "name": "Niki Dimitrov", "url": "https://github.com/n-dimitrov/ourpulse-skill" },
   "repository": "https://github.com/n-dimitrov/ourpulse-skill",
