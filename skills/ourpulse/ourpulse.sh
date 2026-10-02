@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Thin CLI over the OurPulse REST API.
-# Key: OURPULSE_API_KEY if set, else the file written by `ourpulse.sh login`.
+# Key, first match wins: OURPULSE_API_KEY, the key saved for this folder (`login --local`), the global key (`login`).
+# All saved keys live under ~/.config/ourpulse/, never inside the project folder.
 # OURPULSE_URL defaults to production.
 set -euo pipefail
 BASE="${OURPULSE_URL:-https://ourpulse.click}"
@@ -8,15 +9,38 @@ HOST="$(printf %s "$BASE" | sed -E 's#^[a-z]+://##; s#[/:].*$##')"
 KEY_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/ourpulse"
 KEY_FILE="$KEY_DIR/$HOST.key"
 
-KEY="${OURPULSE_API_KEY:-}"
-[ -z "$KEY" ] && [ -r "$KEY_FILE" ] && KEY="$(tr -d '[:space:]' < "$KEY_FILE")"
+# "This folder" is the git root when inside a repository, otherwise the current directory.
+FOLDER="$(git rev-parse --show-toplevel 2>/dev/null || pwd -P)"
+FOLDER_ID="$(printf %s "$FOLDER" | { shasum -a 256 2>/dev/null || sha256sum; } | cut -c1-16)"
+LOCAL_FILE="$KEY_DIR/$HOST.local/$FOLDER_ID.key"
+
+KEY="${OURPULSE_API_KEY:-}"; SCOPE="OURPULSE_API_KEY"; USED_FILE=""
+if [ -z "$KEY" ]; then
+  if [ -r "$LOCAL_FILE" ]; then USED_FILE="$LOCAL_FILE"; SCOPE="this folder only: $FOLDER"
+  elif [ -r "$KEY_FILE" ]; then USED_FILE="$KEY_FILE"; SCOPE="global"; fi
+  [ -n "$USED_FILE" ] && KEY="$(tr -d '[:space:]' < "$USED_FILE")"
+fi
+EMAIL=""; [ -n "$USED_FILE" ] && [ -r "${USED_FILE%.key}.email" ] && EMAIL="$(tr -d '[:space:]' < "${USED_FILE%.key}.email")"
 
 open_url() { command -v open >/dev/null && open "$1" 2>/dev/null || command -v xdg-open >/dev/null && xdg-open "$1" 2>/dev/null || true; }
 
-# `login`: device-code flow. Opens the browser, waits for approval, saves the key. Never prints it.
+# --local / --global, or by default the folder key when this folder has one, else the global key.
+scope_arg() {
+  case "${1:-}" in
+    --local) echo local ;;
+    --global) echo global ;;
+    "") if [ -e "$LOCAL_FILE" ]; then echo local; else echo global; fi ;;
+    *) echo "usage: ourpulse.sh login|logout [--local|--global]" >&2; exit 2 ;;
+  esac
+}
+
+# `login [--local|--global]`: device-code flow. Opens the browser, waits for approval, saves the key. Never prints it.
 if [ "${1:-}" = login ]; then
+  target="$(scope_arg "${2:-}")"
   label="Claude Code on $(hostname -s 2>/dev/null || hostname)"
-  start=$(curl -sS -X POST -H "Content-Type: application/json" "$BASE/cli/device" -d "{\"label\": \"$label\"}") \
+  if [ "$target" = local ]; then file="$LOCAL_FILE"; label="$label ($(basename "$FOLDER"))"; where="this folder only: $FOLDER"; else file="$KEY_FILE"; where="global"; fi
+  req=$(python3 -c 'import sys,json; print(json.dumps({"label": sys.argv[1]}))' "$label")
+  start=$(curl -sS -X POST -H "Content-Type: application/json" "$BASE/cli/device" -d "$req") \
     || { echo "cannot reach $BASE" >&2; exit 5; }
   eval "$(printf %s "$start" | python3 -c 'import sys,json,shlex; d=json.load(sys.stdin); print("dc=%s uc=%s vurl=%s every=%s" % tuple(shlex.quote(str(d[k])) for k in ("device_code","user_code","verify_url","interval")))')"
   echo "Open this link and press Approve (code $uc):" >&2
@@ -30,10 +54,11 @@ if [ "${1:-}" = login ]; then
     case "$code" in
       428) continue ;;
       200)
-        mkdir -p "$KEY_DIR"; chmod 700 "$KEY_DIR"
-        printf %s "$body" | python3 -c 'import sys,json; d=json.load(sys.stdin); open(sys.argv[1],"w").write(d["key"]); print(d.get("email",""))' "$KEY_FILE" > "$KEY_DIR/.email"
-        chmod 600 "$KEY_FILE"
-        echo "connected to $BASE as $(cat "$KEY_DIR/.email"), key saved to $KEY_FILE" >&2; rm -f "$KEY_DIR/.email"; exit 0 ;;
+        umask 077
+        mkdir -p "$(dirname "$file")"; chmod 700 "$KEY_DIR" "$(dirname "$file")"
+        printf %s "$body" | python3 -c 'import sys,json; d=json.load(sys.stdin); open(sys.argv[1],"w").write(d["key"]); print(d.get("email",""))' "$file" > "${file%.key}.email"
+        [ "$target" = local ] && printf '%s\n' "$FOLDER" > "${file%.key}.path"
+        echo "connected to $BASE as $(cat "${file%.key}.email") ($where), key saved to $file" >&2; exit 0 ;;
       403) echo "denied in the browser; nothing saved." >&2; exit 4 ;;
       410) echo "the request expired; run login again." >&2; exit 4 ;;
       *)   echo "unexpected HTTP $code from $BASE" >&2; exit 5 ;;
@@ -42,16 +67,20 @@ if [ "${1:-}" = login ]; then
   echo "timed out waiting for approval; run login again." >&2; exit 4
 fi
 
-# `logout`: forget the local key. Revoke it on $BASE/me/keys if it should stop working everywhere.
-if [ "${1:-}" = logout ]; then rm -f "$KEY_FILE"; echo "removed $KEY_FILE" >&2; exit 0; fi
+# `logout [--local|--global]`: forget a saved key. Revoke it on $BASE/me/keys if it should stop working everywhere.
+if [ "${1:-}" = logout ]; then
+  if [ "$(scope_arg "${2:-}")" = local ]; then file="$LOCAL_FILE"; else file="$KEY_FILE"; fi
+  rm -f "$file" "${file%.key}.email" "${file%.key}.path"; echo "removed $file" >&2; exit 0
+fi
 
 # `check`: exit 0 when a key is present and accepted, 3 when missing, 4 when rejected, 5 when unreachable.
+# On success prints the account (when known) and which key is in use.
 if [ "${1:-}" = check ]; then
   if [ -z "$KEY" ]; then echo "not logged in to $BASE. Run: ourpulse.sh login" >&2; exit 3; fi
   code=$(curl -sS -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $KEY" "$BASE/api/surveys" || echo 000)
   case "$code" in
-    200) echo "ok: logged in to $BASE"; exit 0 ;;
-    401|403) echo "the saved key was rejected by $BASE (HTTP $code), probably revoked. Run: ourpulse.sh login" >&2; exit 4 ;;
+    200) echo "ok: logged in to $BASE${EMAIL:+ as $EMAIL} ($SCOPE)"; exit 0 ;;
+    401|403) echo "the saved key ($SCOPE) was rejected by $BASE (HTTP $code), probably revoked. Run: ourpulse.sh login" >&2; exit 4 ;;
     *) echo "cannot reach $BASE (HTTP $code)." >&2; exit 5 ;;
   esac
 fi
@@ -96,6 +125,6 @@ case "${1:-}" in
       sleep "$every"
     done ;;
   *)
-    echo "usage: ourpulse.sh login | logout | check | create <file|-> | get <id> | list | results <id> | csv <id> | invite <id> | wait <id> [secs]" >&2
+    echo "usage: ourpulse.sh login [--local|--global] | logout [--local|--global] | check | create <file|-> | get <id> | list | results <id> | csv <id> | invite <id> | wait <id> [secs]" >&2
     echo "       ourpulse.sh pause|resume|close|reset <id> | reopen <id> [days] | schedule <id> <closes-ms|-> [opens-ms] | delete <id>" >&2; exit 2 ;;
 esac

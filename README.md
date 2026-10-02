@@ -32,6 +32,11 @@ the browser on an approval page. Sign in with Google, press Approve, and the key
 `~/.config/ourpulse/`. Revoke it any time at https://ourpulse.click/me/keys.
 `ourpulse.sh logout` forgets the local copy. Setting `OURPULSE_API_KEY` overrides the saved key, for CI.
 
+To use a different account in one project, say "use another account in this folder" (or run
+`ourpulse.sh login --local` there). That login applies to that folder only and wins over the global one.
+The draft of every pulse shows which account will create it. All keys stay under `~/.config/ourpulse/`;
+nothing is written into the project folder.
+
 ### Use
 
 Say "ask the team which day works for the demo, close in 2 hours", or `/ourpulse`. The skill drafts the questions, creates the pulse, gives you the link, QR, and a live results page, waits for the close, and summarises the numbers.
