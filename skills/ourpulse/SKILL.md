@@ -13,12 +13,28 @@ Full API reference: `docs/agents.md` in the OurPulse repo, or `GET $OURPULSE_URL
 
 ## Setup check
 
-Before anything else run `ourpulse.sh check`. Exit 0 means go on. Otherwise run `ourpulse.sh login`: it opens
+Before anything else run `ourpulse.sh check`. Exit 0 means go on, and the line it prints names the account
+and the key in use, e.g. `ok: logged in to … as niki@example.com (global)`. Keep that for the draft.
+Otherwise run `ourpulse.sh login`: it opens
 the browser on an approval page (and prints the link in case the browser did not open), waits up to ten
 minutes for the user to sign in with Google and press Approve, then saves the key under `~/.config/ourpulse/`.
 While it runs, tell the user in one line to approve in the browser. When it exits 0, continue with the task in
 the same turn; nothing needs restarting. The key never appears in the terminal output, and you never need to
 see it: do not ask the user to paste a key into chat.
+
+### One account everywhere, or a different one in this folder
+
+A login is either **global** (every folder on this machine) or for **this folder only** (the git root, or
+the current directory outside a repository). A folder login wins over the global one inside that folder.
+Both are stored under `~/.config/ourpulse/`; nothing is written into the project.
+
+- Nobody is logged in (check exits 3): run plain `ourpulse.sh login`. It saves globally. Do not ask about scope.
+- The key was rejected (check exits 4): run plain `ourpulse.sh login`. It renews the key that was rejected.
+- Already logged in and the user wants another account ("use my work account", "switch account", "log in
+  again"): ask once, "Use it in this folder only, or everywhere on this machine?", then run
+  `ourpulse.sh login --local` or `ourpulse.sh login --global`. Skip the question when they already said which.
+- `ourpulse.sh logout` forgets the folder login when this folder has one, otherwise the global one;
+  `--local` / `--global` pick explicitly.
 
 ## The loop
 
@@ -32,6 +48,7 @@ see it: do not ask the user to paste a key into chat.
 
    ```
    Pulse: <title>
+   Account: <email> (this folder only | global)   (from `check`; omit the email when it printed none)
    Opens:  <local date and time, with zone, or "now">
    Closes: <local date and time, with zone>  (<duration>, e.g. "2 hours")
    Access: anyone with the link · pseudonyms · one answer per browser
