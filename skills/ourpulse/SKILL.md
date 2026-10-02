@@ -48,7 +48,7 @@ Both are stored under `~/.config/ourpulse/`; nothing is written into the project
 
    ```
    Pulse: <title>
-   Account: <email> (this folder only | global)   (from `check`; omit the email when it printed none)
+   Account: <email> (this folder only | global)   (exactly as `check` printed it)
    Opens:  <local date and time, with zone, or "now">
    Closes: <local date and time, with zone>  (<duration>, e.g. "2 hours")
    Access: anyone with the link · pseudonyms · one answer per browser
