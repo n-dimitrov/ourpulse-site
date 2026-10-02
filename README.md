@@ -1,33 +1,47 @@
-# OurPulse skill for Claude Code
+# OurPulse
+
+Tiny pulses for teams and agents. This repo holds everything public about [OurPulse](https://ourpulse.click):
+
+- `docs/`: the landing page and the plugin catalog, served by GitHub Pages at https://ourpulse.click
+- `skills/ourpulse/`: the Claude Code skill
+- `.claude-plugin/`: the plugin manifest and the marketplace for installs by repo name
+
+## The skill
 
 Ask a group of humans a question from Claude Code, hand them a link and a QR code, and continue with their answers as data. Runs against https://ourpulse.click.
 
-## Install
+### Install
 
 Inside Claude Code, once:
 
 ```
-/plugin marketplace add n-dimitrov/ourpulse-skill
+/plugin marketplace add https://ourpulse.click/marketplace.json
 /plugin install ourpulse@ourpulse
 ```
 
-Or with the community skills CLI, globally:
+`/plugin marketplace add n-dimitrov/ourpulse-site` works too. Or with the community skills CLI, globally:
 
 ```
-npx skills add n-dimitrov/ourpulse-skill -g
+npx skills add n-dimitrov/ourpulse-site -g
 ```
 
-## Sign in
+### Sign in
 
 Nothing to configure. The first time you say "ask the team …" the skill runs `ourpulse.sh login`, which opens
 the browser on an approval page. Sign in with Google, press Approve, and the key is saved to
 `~/.config/ourpulse/`. Revoke it any time at https://ourpulse.click/me/keys.
 `ourpulse.sh logout` forgets the local copy. Setting `OURPULSE_API_KEY` overrides the saved key, for CI.
 
-## Use
+### Use
 
 Say "ask the team which day works for the demo, close in 2 hours", or `/ourpulse`. The skill drafts the questions, creates the pulse, gives you the link, QR, and a live results page, waits for the close, and summarises the numbers.
 
-Question types: single, multi, agree, scale, text, with optional sections. Full API reference lives in the OurPulse repo's `docs/agents.md`.
+Question types: single, multi, agree, scale, text, with optional sections.
 
-This repo is generated from the private OurPulse repo. Open issues here.
+## Maintaining
+
+- The skill and the manifests are edited here. Bump `version` in `.claude-plugin/plugin.json` on every change, or installed copies do not update.
+- There are two catalogs with the same content: `.claude-plugin/marketplace.json` (relative source, for installs by repo name) and `docs/marketplace.json` (GitHub source, for installs by URL). Change both together.
+- `docs/index.html` copies its colours and base styles from the app. The app itself is a Cloudflare Worker in a private repo; on `ourpulse.click` it answers `/s`, `/r`, `/me`, `/auth`, `/api` and `/cli`, and every other path is served from `docs/`.
+
+Open issues here.
