@@ -46,7 +46,7 @@ Question types: single, multi, agree, scale, text, with optional sections.
 ## Maintaining
 
 - The skill and the manifests are edited here. Bump `version` in `.claude-plugin/plugin.json` on every change, or installed copies do not update.
-- There are two catalogs with the same content: `.claude-plugin/marketplace.json` (relative source, for installs by repo name) and `docs/marketplace.json` (GitHub source, for installs by URL). Change both together.
+- There are two catalogs with the same content: `.claude-plugin/marketplace.json` (relative source, for installs by repo name) and `docs/marketplace.json` (HTTPS git URL, for installs by URL; an explicit `https://` source clones without a GitHub SSH key). Change both together.
 - `docs/index.html` copies its colours and base styles from the app. The app itself is a Cloudflare Worker in a private repo; on `ourpulse.click` it answers `/s`, `/r`, `/me`, `/auth`, `/api` and `/cli`, and every other path is served from `docs/`.
 
 Open issues here.

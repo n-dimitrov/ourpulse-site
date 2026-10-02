@@ -5,7 +5,7 @@
   "plugins": [
     {
       "name": "ourpulse",
-      "source": { "source": "github", "repo": "n-dimitrov/ourpulse-site" },
+      "source": { "source": "url", "url": "https://github.com/n-dimitrov/ourpulse-site.git" },
       "description": "Ask a group of humans a question with an OurPulse pulse and continue with their answers."
     }
   ]
