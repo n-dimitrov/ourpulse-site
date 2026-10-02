@@ -77,7 +77,15 @@ fi
 # On success prints the account (when known) and which key is in use.
 if [ "${1:-}" = check ]; then
   if [ -z "$KEY" ]; then echo "not logged in to $BASE. Run: ourpulse.sh login" >&2; exit 3; fi
-  code=$(curl -sS -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $KEY" "$BASE/api/surveys" || echo 000)
+  resp=$(curl -sS -w '\n%{http_code}' -H "Authorization: Bearer $KEY" "$BASE/api/me" || printf '\n000')
+  code="${resp##*$'\n'}"
+  if [ "$code" = 200 ]; then
+    # Ask the server whose key this is, and remember it next to the key.
+    who=$(printf %s "${resp%$'\n'*}" | python3 -c 'import sys,json; print(json.load(sys.stdin).get("email",""))' 2>/dev/null || true)
+    if [ -n "$who" ]; then EMAIL="$who"; [ -n "$USED_FILE" ] && printf '%s\n' "$who" > "${USED_FILE%.key}.email"; fi
+  elif [ "$code" = 404 ]; then   # a server without /api/me
+    code=$(curl -sS -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $KEY" "$BASE/api/surveys" || echo 000)
+  fi
   case "$code" in
     200) echo "ok: logged in to $BASE${EMAIL:+ as $EMAIL} ($SCOPE)"; exit 0 ;;
     401|403) echo "the saved key ($SCOPE) was rejected by $BASE (HTTP $code), probably revoked. Run: ourpulse.sh login" >&2; exit 4 ;;
