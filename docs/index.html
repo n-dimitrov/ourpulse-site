@@ -14,12 +14,12 @@
 <style>
   :root {
     --bg: #F6F4EE; --ink: #1B1A17; --muted: #5C5A55; --faint: #7A776F; --line: #E2DED4; --line-strong: #CFCABD;
-    --card: #FFFFFF; --track: #E6E2D8; --accent: #2B4FD1; --accent-soft: #EEF1FD; --accent-ink: #FFFFFF; --ok: #0F766E;
+    --card: #FFFFFF; --track: #E6E2D8; --accent: #2B4FD1; --accent-soft: #EEF1FD; --accent-ink: #FFFFFF; --ok: #0F766E; --bezel: #1B1A17;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) { :root {
     --bg: #17171A; --ink: #F1EFE9; --muted: #A8A49B; --faint: #8B877E; --line: #34343A; --line-strong: #44444B;
-    --card: #202024; --track: #2C2C31; --accent: #6D8CFF; --accent-soft: #23283F; --accent-ink: #0F1330; --ok: #4FD1C5;
+    --card: #202024; --track: #2C2C31; --accent: #6D8CFF; --accent-soft: #23283F; --accent-ink: #0F1330; --ok: #4FD1C5; --bezel: #3A3A41;
     color-scheme: dark;
   } }
   * { box-sizing: border-box; }
@@ -66,7 +66,10 @@
   .sec h2 { font-size: 1.5rem; }
   .sec > header p { color: var(--muted); font-size: .9375rem; }
 
-  /* One stage: four phases share one place. Without script every phase is shown in order. */
+  .stage { display: flex; flex-direction: column; gap: 1.25rem; }
+  .stage > header { display: flex; flex-direction: column; gap: .3rem; }
+  .stage h2 { font-size: 1.5rem; }
+  .stage > header p { color: var(--muted); font-size: .9375rem; }
   .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
   .tab { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; gap: .1rem; padding: .6rem .8rem .7rem; border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--muted); cursor: pointer; text-align: left; font: 600 1.05rem Outfit, 'Instrument Sans', sans-serif; }
   .tab small { font: 500 .6875rem ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--faint); font-variant-numeric: tabular-nums; }
@@ -76,58 +79,88 @@
   .stage.auto .tab[aria-selected="true"] i { animation: fill 9s linear forwards; }
   .stage.auto:hover .tab i, .stage.auto:focus-within .tab i { animation-play-state: paused; }
   @keyframes fill { to { width: 100%; } }
+
+  /* Every phase sits in the same grid cell, so the stage keeps one size. */
   .panels { display: flex; flex-direction: column; gap: 2.5rem; }
   .stage.js .panels { display: grid; }
   .stage.js .panel { grid-area: 1 / 1; visibility: hidden; opacity: 0; }
+  .panel { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem 2.5rem; align-items: center; }
   .stage.js .panel.on { visibility: visible; opacity: 1; transition: opacity .25s; }
-  .panel { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 1rem 1.25rem; align-items: start; scroll-margin-top: 1rem; }
-  .what { grid-column: 1 / -1; display: flex; flex-direction: column; gap: .35rem; max-width: 44rem; }
-  .what h3 { font-size: 1.35rem; }
-  .stage.js .what h3 { display: none; }
-  .what p { color: var(--muted); font-size: .9375rem; }
-  .also { font: .78rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--faint); }
+  .left { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+  .what { display: flex; flex-direction: column; gap: .35rem; min-height: 6.6rem; }
+  .what p { color: var(--muted); font-size: .9375rem; max-width: 36rem; }
+  .also { font: .76rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--faint); }
   .also b { color: var(--accent); font-weight: 400; }
-  .term { background: var(--card); border: 1px solid var(--line-strong); border-radius: 14px; padding: .9rem 1rem; display: flex; flex-direction: column; gap: .65rem; font: .78rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; min-width: 0; }
+
+  /* Terminal window: one fixed size for all phases. */
+  .term { height: 21.5rem; background: var(--card); border: 1px solid var(--line-strong); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .tbar { flex: none; display: flex; align-items: center; gap: .4rem; padding: .5rem .8rem; background: var(--track); font: .6875rem ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--faint); }
+  .tbar i { width: .6rem; height: .6rem; border-radius: 50%; background: var(--line-strong); }
+  .tbar span { margin-left: .5rem; }
+  .tbody { flex: 1; min-height: 0; overflow: hidden; padding: .9rem 1rem; display: flex; flex-direction: column; gap: .6rem; font: .78rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
   .term .you { color: var(--accent); font-weight: 600; padding-left: 1.2em; text-indent: -1.2em; overflow-wrap: anywhere; }
   .term .you::before { content: "> "; }
   .term .out { white-space: pre-wrap; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
   .term .ok { color: var(--ok); font-weight: 700; }
-  .cap { font: 600 .6875rem ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-bottom: .4rem; }
-  .col { min-width: 0; }
-  /* The app page each phase leaves behind, drawn small */
-  .screen { border: 1px solid var(--line-strong); border-radius: 14px; overflow: hidden; background: var(--bg); min-width: 0; }
-  .url { padding: .4rem .75rem; border-bottom: 1px solid var(--line); background: var(--card); font: .6875rem ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--faint); overflow-wrap: anywhere; }
-  .app { padding: .9rem 1rem 1.1rem; display: flex; flex-direction: column; gap: .7rem; font-size: .8125rem; }
-  .app .row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
-  .app .brand { font-size: .875rem; }
+
+  /* Phone: one fixed size, the app page inside it. */
+  .phonecol { display: flex; flex-direction: column; align-items: center; gap: .6rem; }
+  .cap { font: 600 .6875rem ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
+  .phone { width: 16.5rem; height: 33rem; border: .55rem solid var(--bezel); border-radius: 2.4rem; background: var(--bg); position: relative; overflow: hidden; box-shadow: 0 18px 40px -22px rgba(0, 0, 0, .6); }
+  .phone::before { content: ""; position: absolute; top: .45rem; left: 50%; width: 4.4rem; height: 1.05rem; margin-left: -2.2rem; border-radius: 1rem; background: var(--bezel); z-index: 1; }
+  /* Create: the phone shows the invite QR first, then the question it leads to. */
+  .swap { position: relative; height: 100%; }
+  .swap > .app { position: absolute; inset: 0; }
+  .swap > .app.then { opacity: 0; }
+  .panel.on .swap > .app.first { animation: leave 9s linear forwards; }
+  .panel.on .swap > .app.then { animation: arrive 9s linear forwards; }
+  @keyframes leave { 0%, 40% { opacity: 1; } 46%, 100% { opacity: 0; } }
+  @keyframes arrive { 0%, 40% { opacity: 0; } 46%, 100% { opacity: 1; } }
+  .app.invite { align-items: center; text-align: center; justify-content: center; gap: .9rem; }
+  .app .qr { width: 9.5rem; height: 9.5rem; padding: .45rem; background: #fff; color: #111; border: 1px solid var(--line); border-radius: 14px; }
+  .app .qr svg { display: block; width: 100%; height: 100%; }
+  .app .mono { font: .72rem ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .app { height: 100%; padding: 2.1rem .95rem 1rem; display: flex; flex-direction: column; gap: .65rem; font-size: .78rem; line-height: 1.4; }
+  .app .row { display: flex; align-items: center; justify-content: space-between; gap: .6rem; }
+  .app .brand { display: inline-flex; align-items: center; gap: .35em; font: 700 .875rem Outfit, sans-serif; }
+  .app .brand svg { width: 1.3em; height: 1.3em; color: var(--accent); flex: none; }
   .app .ttl { font: 600 1.15rem/1.2 Outfit, 'Instrument Sans', sans-serif; letter-spacing: -.2px; }
-  .app .pill { font-size: .6875rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--track); color: var(--muted); }
+  .app .pill { font-size: .6875rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--track); color: var(--muted); white-space: nowrap; }
   .app .pill.on { background: var(--accent); color: var(--accent-ink); }
   .app .kind { font: 600 .625rem ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
-  .app .box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: .7rem .8rem; display: flex; flex-direction: column; gap: .45rem; }
+  .app .box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: .65rem .75rem; display: flex; flex-direction: column; gap: .4rem; }
   .app .m { color: var(--muted); }
-  .app .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .75rem; }
+  .app .new { color: var(--accent); font-weight: 600; }
   .app .meter { height: 6px; border-radius: 3px; background: var(--track); overflow: hidden; }
   .app .meter span { display: block; height: 100%; background: var(--accent); }
-  .app .btns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .4rem; }
-  .app .btns span { text-align: center; padding: .45rem .3rem; border: 1.5px solid var(--line); border-radius: 10px; background: var(--card); font-weight: 600; font-size: .75rem; }
-  .app.invite { align-items: center; text-align: center; padding-block: 1.2rem 1.4rem; }
-  .app .qr { width: 8.5rem; height: 8.5rem; padding: .4rem; background: #fff; color: #111; border: 1px solid var(--line); border-radius: 12px; }
-  .app .qr svg { display: block; width: 100%; height: 100%; }
-  .app .bars { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .45rem .6rem; align-items: center; }
-  .app .bars .meter { height: 10px; border-radius: 5px; }
+  .app .btns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .35rem; }
+  .app .btns span { text-align: center; padding: .5rem .2rem; border: 1.5px solid var(--line); border-radius: 10px; background: var(--card); font-weight: 600; font-size: .7rem; }
+  .app .grow { flex: 1; }
+  .app .cta { text-align: center; padding: .8rem; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: .9rem; }
+  .app .stmt { font: 600 1.45rem/1.2 Outfit, 'Instrument Sans', sans-serif; letter-spacing: -.3px; margin-top: 1.2rem; }
+  .app .scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; margin-top: 1.4rem; }
+  .app .scale span { aspect-ratio: 1; border-radius: 50%; border: 1.5px solid var(--line-strong); background: var(--card); display: flex; align-items: center; justify-content: center; font-weight: 600; }
+  .app .scale .sel { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .app .ends { display: flex; justify-content: space-between; font-size: .6875rem; color: var(--muted); }
+  .app .bars { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .4rem .5rem; align-items: center; font-size: .72rem; }
+  .app .bars .meter { height: 9px; border-radius: 5px; }
   .app .bars b { font-variant-numeric: tabular-nums; }
-  .app .keys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
-  .app .keys div { border-top: 2px solid var(--ink); padding-top: .35rem; display: flex; flex-direction: column; }
-  .app .keys b { font: 600 1.15rem/1.15 Outfit, 'Instrument Sans', sans-serif; }
-  .app .keys b small { font-size: .7rem; font-weight: 500; color: var(--muted); }
-  .app .keys span { font-size: .6875rem; color: var(--muted); line-height: 1.3; }
-  .app blockquote { margin: 0; padding-left: .6rem; border-left: 2px solid var(--line-strong); color: var(--muted); }
-  @media (max-width: 52rem) {
+  .app .big { font: 600 2rem/1 Outfit, sans-serif; }
+  .app .keys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; }
+  .app .keys div { border-top: 2px solid var(--ink); padding-top: .3rem; display: flex; flex-direction: column; }
+  .app .keys b { font: 600 1.1rem/1.15 Outfit, sans-serif; }
+  .app .keys b small { font-size: .65rem; font-weight: 500; color: var(--muted); }
+  .app .keys span { font-size: .64rem; color: var(--muted); line-height: 1.3; }
+  .app blockquote { padding-left: .6rem; border-left: 2px solid var(--line-strong); color: var(--muted); }
+  .app h4 { margin: .2rem 0 0; font: 600 .9rem Outfit, sans-serif; }
+
+  @media (max-width: 50rem) {
     .panel { grid-template-columns: 1fr; }
     .tab { padding: .5rem .55rem .6rem; font-size: .9375rem; }
+    .what { min-height: 8.5rem; }
+    .term { height: 23rem; }
   }
-  @media (prefers-reduced-motion: reduce) { .stage.auto .tab[aria-selected="true"] i { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .stage.auto .tab[aria-selected="true"] i { animation: none; } .stage.js .panel.on { transition: none; } .swap > .app { animation: none !important; } .swap > .app.first { opacity: 0; } }
   .team { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 1.25rem 2rem; }
   .team div { display: flex; flex-direction: column; gap: .3rem; border-top: 2px solid var(--ink); padding-top: .7rem; }
   .team strong { font: 600 1.05rem Outfit, 'Instrument Sans', sans-serif; }
@@ -165,7 +198,7 @@
   <div class="sec stage" id="stage">
     <header>
       <h2>One pulse, start to finish</h2>
-      <p>A sprint retro, run from one Claude Code session on an afternoon. On the left is what you say, on the right the page it leaves behind. Example data.</p>
+      <p>A sprint retro, run from one Claude Code session on an afternoon. Example data.</p>
     </header>
     <div class="tabs" role="tablist" aria-label="Phases of a pulse" hidden>
       <button type="button" class="tab" role="tab" id="tab-create" aria-controls="create" aria-selected="true"><small>14:02</small>Create<i></i></button>
@@ -173,17 +206,19 @@
       <button type="button" class="tab" role="tab" id="tab-analyze" aria-controls="analyze" aria-selected="false" tabindex="-1"><small>17:30</small>Analyze<i></i></button>
       <button type="button" class="tab" role="tab" id="tab-report" aria-controls="report" aria-selected="false" tabindex="-1"><small>17:36</small>Report<i></i></button>
     </div>
+
     <div class="panels">
       <section class="panel on" id="create" role="tabpanel" aria-labelledby="tab-create">
-        <div class="what">
-          <h3>Create</h3>
-          <p>Say what you want to know. Claude drafts the questions and shows you the pulse. Change the draft by talking; nothing is sent until you say yes.</p>
-          <div class="also">Also: <b>&gt;</b> poll the team on the offsite date &nbsp; <b>&gt;</b> vote on the logo, Google sign-in, one answer each</div>
-        </div>
-        <div class="col"><div class="cap">In Claude Code</div>
-        <div class="term" aria-label="Example: creating a pulse">
-          <div class="you">run a retro for sprint 41, 8 people, close at 17:00</div>
-          <div class="out">Pulse: Sprint 41 retro
+        <div class="left">
+          <div class="what">
+            <p>Say what you want to know. Claude drafts the questions and shows you the pulse. Change the draft by talking; nothing is sent until you say yes.</p>
+            <div class="also">Also: <b>&gt;</b> poll the team on the offsite date &nbsp; <b>&gt;</b> vote on the logo, one answer each</div>
+          </div>
+          <div class="term" aria-label="Example: creating a pulse">
+            <div class="tbar"><i></i><i></i><i></i><span>claude · sprint-41</span></div>
+            <div class="tbody">
+              <div class="you">run a retro for sprint 41, 8 people, close at 17:00</div>
+              <div class="out">Pulse: Sprint 41 retro
 Closes: today 17:00 (3 hours)
 Access: anyone with the link · pseudonyms
 
@@ -193,104 +228,138 @@ Access: anyone with the link · pseudonyms
 4. [text]    One thing to change
 
 Create it?</div>
-          <div class="you">yes</div>
-          <div class="out"><span class="ok">✓</span> ourpulse.click/s/XhNODpVf
-  Link and QR code ready to share</div>
-        </div></div>
-        <div class="col"><div class="cap">Invite screen, for the meeting room TV</div>
-        <div class="screen"><div class="url">ourpulse.click/s/XhNODpVf/invite</div>
-          <div class="app invite"><span class="brand"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</span>
+              <div class="you">yes</div>
+              <div class="out"><span class="ok">✓</span> ourpulse.click/s/XhNODpVf · link and QR ready</div>
+            </div>
+          </div>
+        </div>
+        <div class="phonecol">
+          <div class="cap">Your team scans, then answers</div>
+          <div class="phone"><div class="swap">
+          <div class="app invite first">
+            <span class="brand"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</span>
             <div class="ttl">Sprint 41 retro</div>
             <div class="qr"><svg viewBox="-1 -1 23 23" aria-hidden="true"><path fill="currentColor" d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM14 0h1v1h-1zM15 0h1v1h-1zM16 0h1v1h-1zM17 0h1v1h-1zM18 0h1v1h-1zM19 0h1v1h-1zM20 0h1v1h-1zM0 1h1v1h-1zM6 1h1v1h-1zM10 1h1v1h-1zM14 1h1v1h-1zM20 1h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM6 2h1v1h-1zM11 2h1v1h-1zM12 2h1v1h-1zM14 2h1v1h-1zM16 2h1v1h-1zM17 2h1v1h-1zM18 2h1v1h-1zM20 2h1v1h-1zM0 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM8 3h1v1h-1zM10 3h1v1h-1zM14 3h1v1h-1zM16 3h1v1h-1zM17 3h1v1h-1zM18 3h1v1h-1zM20 3h1v1h-1zM0 4h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h1v1h-1zM14 4h1v1h-1zM16 4h1v1h-1zM17 4h1v1h-1zM18 4h1v1h-1zM20 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM11 5h1v1h-1zM14 5h1v1h-1zM20 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM8 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM16 6h1v1h-1zM17 6h1v1h-1zM18 6h1v1h-1zM19 6h1v1h-1zM20 6h1v1h-1zM8 7h1v1h-1zM11 7h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM4 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM17 8h1v1h-1zM18 8h1v1h-1zM19 8h1v1h-1zM20 8h1v1h-1zM3 9h1v1h-1zM5 9h1v1h-1zM10 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM17 9h1v1h-1zM18 9h1v1h-1zM20 9h1v1h-1zM0 10h1v1h-1zM2 10h1v1h-1zM4 10h1v1h-1zM6 10h1v1h-1zM10 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM13 10h1v1h-1zM15 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM19 10h1v1h-1zM20 10h1v1h-1zM1 11h1v1h-1zM10 11h1v1h-1zM16 11h1v1h-1zM19 11h1v1h-1zM1 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM11 12h1v1h-1zM13 12h1v1h-1zM16 12h1v1h-1zM19 12h1v1h-1zM20 12h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM13 13h1v1h-1zM17 13h1v1h-1zM19 13h1v1h-1zM0 14h1v1h-1zM1 14h1v1h-1zM2 14h1v1h-1zM3 14h1v1h-1zM4 14h1v1h-1zM5 14h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM9 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM15 14h1v1h-1zM18 14h1v1h-1zM20 14h1v1h-1zM0 15h1v1h-1zM6 15h1v1h-1zM8 15h1v1h-1zM11 15h1v1h-1zM12 15h1v1h-1zM19 15h1v1h-1zM20 15h1v1h-1zM0 16h1v1h-1zM2 16h1v1h-1zM3 16h1v1h-1zM4 16h1v1h-1zM6 16h1v1h-1zM12 16h1v1h-1zM14 16h1v1h-1zM15 16h1v1h-1zM16 16h1v1h-1zM0 17h1v1h-1zM2 17h1v1h-1zM3 17h1v1h-1zM4 17h1v1h-1zM6 17h1v1h-1zM8 17h1v1h-1zM10 17h1v1h-1zM11 17h1v1h-1zM12 17h1v1h-1zM14 17h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM18 17h1v1h-1zM20 17h1v1h-1zM0 18h1v1h-1zM2 18h1v1h-1zM3 18h1v1h-1zM4 18h1v1h-1zM6 18h1v1h-1zM9 18h1v1h-1zM17 18h1v1h-1zM20 18h1v1h-1zM0 19h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM10 19h1v1h-1zM14 19h1v1h-1zM17 19h1v1h-1zM20 19h1v1h-1zM0 20h1v1h-1zM1 20h1v1h-1zM2 20h1v1h-1zM3 20h1v1h-1zM4 20h1v1h-1zM5 20h1v1h-1zM6 20h1v1h-1zM11 20h1v1h-1zM13 20h1v1h-1zM14 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM20 20h1v1h-1z"/></svg></div>
             <div class="mono">ourpulse.click/s/XhNODpVf</div>
             <div class="m">Closes today 17:00 · in 3 hours</div>
+          </div>
+          <div class="app then">
+            <div class="row"><span class="brand"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</span><span class="pill">1 of 4</span></div>
+            <div class="m">Sprint 41 retro</div>
+            <div class="stmt">We shipped what we planned</div>
+            <div class="scale"><span>1</span><span>2</span><span>3</span><span class="sel">4</span><span>5</span></div>
+            <div class="ends"><span>Fully disagree</span><span>Fully agree</span></div>
+            <div class="grow"></div>
+            <div class="m" style="text-align:center">Closes today 17:00 · no sign-in</div>
+            <div class="cta">Next</div>
           </div></div></div>
+        </div>
       </section>
 
       <section class="panel" id="edit" role="tabpanel" aria-labelledby="tab-edit">
-        <div class="what">
-          <h3>Edit</h3>
-          <p>Once it is live you can move the deadline, pause it, close it early or run it again. The questions lock when the pulse is created.</p>
-          <div class="also">Also: <b>&gt;</b> pause it until standup is over &nbsp; <b>&gt;</b> close it now &nbsp; <b>&gt;</b> run it again next sprint</div>
-        </div>
-        <div class="col"><div class="cap">In Claude Code</div>
-        <div class="term" aria-label="Example: editing a pulse">
-          <div class="you">how many answered the retro?</div>
-          <div class="out">Sprint 41 retro · open · 5 of 8 answered so far
+        <div class="left">
+          <div class="what">
+            <p>Once it is live you can move the deadline, pause it, close it early or run it again. The questions lock when the pulse is created.</p>
+            <div class="also">Also: <b>&gt;</b> pause it until standup is over &nbsp; <b>&gt;</b> close it now &nbsp; <b>&gt;</b> run it again next sprint</div>
+          </div>
+          <div class="term" aria-label="Example: editing a pulse">
+            <div class="tbar"><i></i><i></i><i></i><span>claude · sprint-41</span></div>
+            <div class="tbody">
+              <div class="you">how many answered the retro?</div>
+              <div class="out">Sprint 41 retro · open · 5 of 8 answered so far
 Closes today 17:00 (in 20 minutes)</div>
-          <div class="you">give them until 17:30</div>
-          <div class="out"><span class="ok">✓</span> Closes today 17:30 · 5 of 8 answered so far</div>
-        </div></div>
-        <div class="col"><div class="cap">Your pulse page</div>
-        <div class="screen"><div class="url">ourpulse.click/me/s/XhNODpVf</div>
-          <div class="app">
+              <div class="you">give them until 17:30</div>
+              <div class="out"><span class="ok">✓</span> Closes today 17:30 · 5 of 8 answered so far</div>
+            </div>
+          </div>
+        </div>
+        <div class="phonecol">
+          <div class="cap">Your pulse page</div>
+          <div class="phone"><div class="app">
             <div class="row"><span class="brand"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</span><span class="pill on">Open</span></div>
             <div class="ttl">Sprint 41 retro</div>
-            <div class="box"><div class="row"><b>5 of 8 answered</b><span class="m">Live results ›</span></div><div class="meter"><span style="width:62%"></span></div></div>
-            <div class="box"><div class="row"><b>Schedule</b><span class="m">Edit</span></div><div class="m">Opened today 14:02 · closes today 17:30</div></div>
+            <div class="box"><div class="row"><b>5 of 8 answered</b><span class="m">Live ›</span></div><div class="meter"><span style="width:62%"></span></div></div>
+            <div class="box"><div class="row"><b>Schedule</b><span class="m">Edit</span></div><div class="m">Opened today 14:02</div><div>Closes <span class="new">today 17:30</span></div></div>
+            <div class="box"><b>Results screen</b><div class="m">Anyone with this link sees live results. No names.</div></div>
+            <div class="grow"></div>
             <div class="btns"><span>Pause</span><span>Extend 7d</span><span>Close now</span></div>
-          </div></div></div>
+          </div></div>
+        </div>
       </section>
 
       <section class="panel" id="analyze" role="tabpanel" aria-labelledby="tab-analyze">
-        <div class="what">
-          <h3>Analyze</h3>
-          <p>The answers come back as data, so you can keep asking. Claude reads every response, not only the totals.</p>
-          <div class="also">Also: <b>&gt;</b> group the comments into themes &nbsp; <b>&gt;</b> compare with the sprint 40 retro &nbsp; <b>&gt;</b> export the CSV</div>
-        </div>
-        <div class="col"><div class="cap">In Claude Code</div>
-        <div class="term" aria-label="Example: analyzing results">
-          <div class="out"><span class="ok">✓</span> Closed · 8 of 8 answered
+        <div class="left">
+          <div class="what">
+            <p>The answers come back as data, so you can keep asking. Claude reads every response, not only the totals.</p>
+            <div class="also">Also: <b>&gt;</b> group the comments into themes &nbsp; <b>&gt;</b> compare with the sprint 40 retro &nbsp; <b>&gt;</b> export the CSV</div>
+          </div>
+          <div class="term" aria-label="Example: analyzing results">
+            <div class="tbar"><i></i><i></i><i></i><span>claude · sprint-41</span></div>
+            <div class="tbody">
+              <div class="out"><span class="ok">✓</span> Closed · 8 of 8 answered
 
 We shipped what we planned       3.9 / 5
 I knew what to work on each day  2.6 / 5
 Slowed us down most
-  Unclear specs 4 · Flaky tests 2 · Reviews 1 · On-call 1</div>
-          <div class="you">do the people who picked unclear specs score lower on question 2?</div>
-          <div class="out">Yes. Their mean is 1.8, against 3.5 for the other four.
+Unclear specs 4 · Flaky tests 2 · Reviews 1 · On-call 1</div>
+              <div class="you">do the people who picked unclear specs score lower on question 2?</div>
+              <div class="out">Yes. Their mean is 1.8, against 3.5 for the other four.
 Three of their four comments ask for acceptance criteria.</div>
-        </div></div>
-        <div class="col"><div class="cap">Results screen</div>
-        <div class="screen"><div class="url">ourpulse.click/r/c2joKcrC3SZv…</div>
-          <div class="app">
-            <div class="row"><span class="row" style="gap:.5rem"><span class="brand"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</span><span class="pill">Closed</span></span><span><b>8</b> <span class="m">of 8 answered</span></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="phonecol">
+          <div class="cap">Results</div>
+          <div class="phone"><div class="app">
+            <div class="row"><span class="brand"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</span><span class="pill">Closed</span></div>
             <div class="ttl">Sprint 41 retro</div>
+            <div><span class="big">8</span> <span class="m">of 8 answered · 100%</span></div>
             <div class="box"><b>What slowed us down most?</b>
-              <div class="bars"><span>Unclear specs</span><span class="meter"><span style="width:50%"></span></span><b>4</b><span>Flaky tests</span><span class="meter"><span style="width:25%"></span></span><b>2</b><span>Reviews</span><span class="meter"><span style="width:12%"></span></span><b>1</b><span>On-call</span><span class="meter"><span style="width:12%"></span></span><b>1</b><span>Meetings</span><span class="meter"><span style="width:0%"></span></span><b>0</b></div></div>
-            <div class="m" style="text-align:center">‹ &nbsp; 3 / 4 &nbsp; ›</div>
-          </div></div></div>
+              <div class="bars"><span>Unclear specs</span><span class="meter"><span style="width:50%"></span></span><b>4</b><span>Flaky tests</span><span class="meter"><span style="width:25%"></span></span><b>2</b><span>Reviews</span><span class="meter"><span style="width:12%"></span></span><b>1</b><span>On-call</span><span class="meter"><span style="width:12%"></span></span><b>1</b><span>Meetings</span><span class="meter"><span style="width:0"></span></span><b>0</b></div></div>
+            <div class="box"><b>I knew what to work on each day</b><div class="m">mean <b style="color:var(--ink)">2.6</b> of 5</div>
+              <div class="bars"><span>1</span><span class="meter"><span style="width:12%"></span></span><b>1</b><span>2</span><span class="meter"><span style="width:37%"></span></span><b>3</b><span>3</span><span class="meter"><span style="width:25%"></span></span><b>2</b><span>4</span><span class="meter"><span style="width:25%"></span></span><b>2</b><span>5</span><span class="meter"><span style="width:0"></span></span><b>0</b></div></div>
+          </div></div>
+        </div>
       </section>
 
       <section class="panel" id="report" role="tabpanel" aria-labelledby="tab-report">
-        <div class="what">
-          <h3>Report</h3>
-          <p>Claude writes a report page with the key numbers, a chart for each question and what people said. You see a preview first. The report gets its own link, and you decide who receives it.</p>
-          <div class="also">Also: <b>&gt;</b> give me three lines for Slack &nbsp; <b>&gt;</b> write it up in docs/retros/sprint-41.md</div>
-        </div>
-        <div class="col"><div class="cap">In Claude Code</div>
-        <div class="term" aria-label="Example: pushing a report">
-          <div class="you">write the report and push it</div>
-          <div class="out">Include quotes from the comments?</div>
-          <div class="you">yes</div>
-          <div class="out">Report: Sprint 41 retro
-Contents: 3 key numbers · 3 charts · 3 comment themes, 4 quotes · 1 action
+        <div class="left">
+          <div class="what">
+            <p>Claude writes a report page with the key numbers, a chart for each question and what people said. You see a preview first. The report gets its own link, and you decide who receives it.</p>
+            <div class="also">Also: <b>&gt;</b> give me three lines for Slack &nbsp; <b>&gt;</b> write it up in docs/retros/sprint-41.md</div>
+          </div>
+          <div class="term" aria-label="Example: pushing a report">
+            <div class="tbar"><i></i><i></i><i></i><span>claude · sprint-41</span></div>
+            <div class="tbody">
+              <div class="you">write the report and push it</div>
+              <div class="out">Include quotes from the comments?</div>
+              <div class="you">yes</div>
+              <div class="out">Report: Sprint 41 retro
+Contents: 3 key numbers · 3 charts · 3 themes, 4 quotes
 Preview: open in your browser
 
 Push it?</div>
-          <div class="you">yes</div>
-          <div class="out"><span class="ok">✓</span> ourpulse.click/r/report/Tq8mW2…
-  Only you have this link. Share it when you are ready.</div>
-        </div></div>
-        <div class="col"><div class="cap">Report page</div>
-        <div class="screen"><div class="url">ourpulse.click/r/report/Tq8mW2…</div>
-          <div class="app">
+              <div class="you">yes</div>
+              <div class="out"><span class="ok">✓</span> ourpulse.click/r/report/Tq8mW2…
+Only you have this link. Share it when you are ready.</div>
+            </div>
+          </div>
+        </div>
+        <div class="phonecol">
+          <div class="cap">Report page</div>
+          <div class="phone"><div class="app">
             <div class="row"><span class="brand"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</span><span class="kind">Report</span></div>
             <div class="ttl">Sprint 41 retro</div>
-            <div class="m">Today 14:02 to 17:30 · 8 of 8 answered (100%) · anonymous</div>
-            <div class="keys"><div><b>3.9 <small>/ 5</small></b><span>shipped what we planned</span></div><div><b>2.6 <small>/ 5</small></b><span>knew what to work on each day</span></div><div><b>4 <small>of 8</small></b><span>slowed down by unclear specs</span></div></div>
+            <div class="m">Today 14:02 to 17:30 · 8 of 8 answered · anonymous</div>
+            <div>The sprint delivered, but half the team did not know what to work on day to day.</div>
+            <div class="keys"><div><b>3.9 <small>/ 5</small></b><span>shipped what we planned</span></div><div><b>2.6 <small>/ 5</small></b><span>knew what to work on</span></div><div><b>4 <small>of 8</small></b><span>slowed by unclear specs</span></div></div>
+            <h4>In their words</h4>
             <div><b>Specs arrive without acceptance criteria</b> <span class="m">3 comments</span></div>
             <blockquote>"I found out what done meant in the review."</blockquote>
-          </div></div></div>
+            <h4>Proposed action</h4>
+            <div class="m">Every spec gets an owner and acceptance criteria before sprint start.</div>
+          </div></div>
+        </div>
       </section>
     </div>
   </div>
@@ -319,16 +388,16 @@ Push it?</div>
 (function(){
   if (/[?&]signed-out\b/.test(location.search)) document.getElementById('signed-out').hidden = false;
   var t=document.getElementById('toast'); function toast(m){ t.textContent=m; t.classList.add('on'); setTimeout(function(){t.classList.remove('on')},1600); }
-  // Phases: tabs switch one stage. It plays through once on its own, and stops for good on the first click or key.
+  // Phases: tabs switch one stage. It keeps playing on its own and stops for good on the first click or key.
   (function(){
-    var stage=document.getElementById('stage'), tabs=[].slice.call(stage.querySelectorAll('.tab')), panels=[].slice.call(stage.querySelectorAll('.panel')), cur=0, played=0;
+    var stage=document.getElementById('stage'), tabs=[].slice.call(stage.querySelectorAll('.tab')), panels=[].slice.call(stage.querySelectorAll('.panel')), cur=0;
     function show(i){ cur=i; tabs.forEach(function(b,j){ b.setAttribute('aria-selected', j===i); b.tabIndex=j===i?0:-1; panels[j].classList.toggle('on', j===i); }); }
     function stop(){ stage.classList.remove('auto'); }
     stage.classList.add('js'); stage.querySelector('.tabs').hidden=false;
     tabs.forEach(function(b,i){
       b.onclick=function(){ stop(); show(i); };
       b.onkeydown=function(e){ var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d) return; e.preventDefault(); stop(); show((cur+d+tabs.length)%tabs.length); tabs[cur].focus(); };
-      b.querySelector('i').addEventListener('animationend', function(){ if(++played>=tabs.length){ stop(); show(0); } else show((cur+1)%tabs.length); });
+      b.querySelector('i').addEventListener('animationend', function(){ show((cur+1)%tabs.length); });
     });
     var start=panels.map(function(p){return '#'+p.id}).indexOf(location.hash);
     if (start>=0) show(start);
