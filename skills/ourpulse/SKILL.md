@@ -1,6 +1,6 @@
 ---
 name: ourpulse
-description: Ask a group of humans a question with an OurPulse survey (a "pulse") and continue with their answers. Use when the user says "ask the team", "run a quick poll/survey/retro/check-in", "get votes on", or wants a decision from several people. Shows the draft (questions, open and close times) for approval, creates the pulse, hands back the link and offers the full-screen invite screen, waits for it to close, and returns the results as data.
+description: Ask a group of humans a question with an OurPulse survey (a "pulse") and continue with their answers. Use when the user says "ask the team", "run a quick poll/survey/retro/check-in", "get votes on", or wants a decision from several people. Shows the draft (questions, open and close times) for approval, creates the pulse, hands back the link and offers the full-screen invite screen, waits for it to close, and returns the results as data. Also use for follow-ups on an existing pulse: "what did the team say", "show the results", "analyze the retro", "write the report", "push the report to the pulse".
 ---
 
 # OurPulse: tiny surveys ("pulses") for teams and agents
@@ -106,11 +106,12 @@ Both are stored under `~/.config/ourpulse/`; nothing is written into the project
    Don't poll faster than every 60 s.
 
 6. **Use the results.** `results` JSON has `response_count`, `expected`, `response_rate`, and
-   `per_question` with `counts` (choices), `mean` + `distribution` (scale), or `texts` (text). Each entry
-   carries `section` (null when the pulse has none); summarise by section when it is set.
-   Summarise in two or three lines, then continue the user's original task with the numbers.
-   `raw` rows exist for per-response analysis; `name` is a pseudonym on open pulses, a real name on named
-   pulses, `null` otherwise.
+   `per_question` with `counts` (choices), `mean` + `distribution` (scale, agree), or `texts` (text).
+   Each entry carries `section` (null when the pulse has none). `raw` rows exist for per-response
+   analysis; `name` is a pseudonym on open pulses, a real name on named pulses, `null` otherwise.
+   Give the chat summary from "Reports" below, then continue the user's original task with the numbers.
+   In a later session, find the pulse with `ourpulse.sh list` (match on title, newest first; ask when
+   two fit) before running `results`.
 
 7. **Control it when asked.** `ourpulse.sh pause|resume|close|reset <id>`, `ourpulse.sh reopen <id> [days]`,
    `ourpulse.sh schedule <id> <closes-ms|-> [opens-ms]` to move the window to exact instants.
@@ -131,10 +132,86 @@ Both are stored under `~/.config/ourpulse/`; nothing is written into the project
 
 Any type also takes optional `section` (a group heading; all questions or none).
 
+## Reports
+
+Three forms. Pick by what the user asked for; default to the chat summary.
+
+### Chat summary
+
+After `wait`, or for "what did the team say". At most six lines:
+
+```
+Sprint 41 retro · closed today 17:30 · 8 of 8 answered
+We shipped what we planned       3.9 / 5
+I knew what to work on each day  2.6 / 5
+Slowed us down most: Unclear specs 4 · Flaky tests 2 · Reviews 1 · On-call 1
+Comments (6): most ask for acceptance criteria before sprint start.
+Lowest score: "I knew what to work on each day".
+```
+
+First line: title, state with the close time in the user's zone, `n of expected answered` (just
+`n answered` when `expected` is unset). Then one line per question in pulse order: choices as
+`option count`, highest first, zero counts left out; scale and agree as `mean / max` to one decimal;
+text as the count and one sentence on what most say. Last line: the one finding that matters for
+the user's task. With sections, put the section name on its own line above its questions.
+
+### HTML report, pushed to the pulse
+
+For "write the report", "push a report", "make a report I can share". The report is stored with the
+pulse and gets its own link, which only the owner receives.
+
+1. Fetch `get <id>` and `results <id>`. If the pulse is still open, say so and ask whether to report
+   on the answers so far.
+2. If the pulse has text answers, ask once: **"Include quotes from the comments?"** Comments are
+   anonymous, but a teammate may recognise an incident or a way of writing. On no, give themes and
+   counts only.
+3. Copy `report-template.html` (next to this file) to a temp file and fill it in. It holds the outline
+   and every class to use: headline and facts, key numbers, one chart per question, comment themes,
+   proposed actions. Write the body only. Scripts, forms and images from other sites do not work on
+   the served page; charts are the template's HTML bars. Write dates and times as text in the user's
+   timezone.
+4. Run `ourpulse.sh report-preview <file>`. It opens the report in the browser as it will look and
+   prints the preview path.
+5. Show this and wait for a yes. Pushing is visible to whoever gets the link, so always ask:
+
+   ```
+   Report: <pulse title>
+   Account: <email> (as `check` printed it)
+   Contents: 3 key numbers · 4 charts · 5 comment themes, 7 quotes · 3 actions
+   Preview: open in your browser (<preview path>)
+   Sharing: only you get the link. Anyone you give it to can read the report without signing in.
+
+   Push it?
+   ```
+
+   If they ask for changes, edit the file, preview again and show the block again.
+6. Run `ourpulse.sh report <id> <file>` and hand back `report_url`. Pushing again later replaces the
+   report and keeps the link. `ourpulse.sh report-delete <id>` removes it; the link stops working.
+
+When the user wants a file in their project instead ("write it up in docs/retro.md"), write Markdown
+with the same outline and do not push anything.
+
+### Short post
+
+For "three lines for Slack", "something for the channel". Plain text, no headings: response rate,
+the top result, the next step. Add `report_url` when a report was pushed, otherwise `results_url`.
+
+### Rules for every report
+
+- Numbers come from `results` as returned. Never round a count, never fill in a missing answer.
+- Quote comments exactly as written. Shorten a long one only by cutting, marked with "…".
+- Never attach a pseudonym or name to an answer, unless the pulse is `named` and the user asks for it.
+- Never say who has not answered. OurPulse does not know; report only how many.
+- No subgroup smaller than three people ("the two who picked Reviews said …"). Fold it into the total.
+- Every proposed action names the result it comes from. No action without one.
+- If the pulse is still open, say so in the first line and call the numbers "so far".
+- For a projector, give `results_url`. For a spreadsheet, `ourpulse.sh csv <id>`.
+
 ## Rules
 
 - One pulse per question set. Don't create several pulses for one ask.
 - Never create a pulse the user has not approved in the form above, and never create a second one for the
   same ask unless they say so.
 - Never fabricate results. If the pulse is still open, say so and report the count so far.
+- Never push a report the user has not approved in the form above.
 - Results pages are for the owner. Share the pulse `url`, not the results URL, with respondents.

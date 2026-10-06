@@ -93,6 +93,16 @@ if [ "${1:-}" = check ]; then
   esac
 fi
 
+# `report-preview <html-file>`: wrap a report body in the page OurPulse serves it in and open it locally. Needs no key.
+if [ "${1:-}" = report-preview ]; then
+  [ -r "${2:-}" ] || { echo "usage: ourpulse.sh report-preview <html-file>" >&2; exit 2; }
+  out="${TMPDIR:-/tmp}/ourpulse-report-preview-$$.html"
+  python3 -c 'import sys; open(sys.argv[3],"w").write(open(sys.argv[1]).read().replace("<!--REPORT_BODY-->", open(sys.argv[2]).read()))' \
+    "$(dirname "$0")/report-preview.html" "$2" "$out"
+  echo "$out"
+  open_url "$out"; exit 0
+fi
+
 [ -n "$KEY" ] || { echo "not logged in. Run: ourpulse.sh login" >&2; exit 3; }
 
 api() { curl -sS -H "Authorization: Bearer $KEY" -H "Content-Type: application/json" "$@"; }
@@ -116,6 +126,11 @@ case "${1:-}" in
     parts=""; [ "${3:--}" != - ] && parts="\"closes_at\": $3"
     [ -n "${4:-}" ] && parts="${parts:+$parts, }\"opens_at\": $4"
     api -X PATCH "$BASE/api/surveys/$2" -d "{$parts}" ;;
+  report)   # report <id> <html-file>   -> push the report body; prints report_url. Replaces an earlier report, same link.
+    [ -r "${3:-}" ] || { echo "usage: ourpulse.sh report <id> <html-file>" >&2; exit 2; }
+    curl -sS -X PUT -H "Authorization: Bearer $KEY" -H "Content-Type: text/html; charset=utf-8" --data-binary "@$3" "$BASE/api/surveys/$2/report" ;;
+  report-delete)   # report-delete <id>   -> remove the report; its link stops working
+    api -X DELETE "$BASE/api/surveys/$2/report" -o /dev/null -w "%{http_code}\n" ;;
   delete)   # delete <id>
     api -X DELETE "$BASE/api/surveys/$2" -o /dev/null -w "%{http_code}\n" ;;
   invite)   # invite <id>   -> prints invite_url and opens it in the default browser (TV / projector page)
@@ -134,5 +149,6 @@ case "${1:-}" in
     done ;;
   *)
     echo "usage: ourpulse.sh login [--local|--global] | logout [--local|--global] | check | create <file|-> | get <id> | list | results <id> | csv <id> | invite <id> | wait <id> [secs]" >&2
-    echo "       ourpulse.sh pause|resume|close|reset <id> | reopen <id> [days] | schedule <id> <closes-ms|-> [opens-ms] | delete <id>" >&2; exit 2 ;;
+    echo "       ourpulse.sh pause|resume|close|reset <id> | reopen <id> [days] | schedule <id> <closes-ms|-> [opens-ms] | delete <id>" >&2
+    echo "       ourpulse.sh report-preview <html-file> | report <id> <html-file> | report-delete <id>" >&2; exit 2 ;;
 esac

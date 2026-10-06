@@ -1,0 +1,75 @@
+<!--
+  OurPulse report body. Fill it in, preview with `ourpulse.sh report-preview <file>`, push with
+  `ourpulse.sh report <id> <file>`. Send this body only: OurPulse adds the page, the brand row, fonts,
+  light and dark colours and the styles for the classes below. Scripts, forms and external images
+  are blocked on the served page. Delete the comments and any block that would be empty.
+-->
+<div class="head">
+  <h1>PULSE TITLE</h1>
+  <!-- Dates and times as text in the owner's timezone. Access: "anonymous, anyone with the link", "anonymous, Google sign-in" or "named". -->
+  <div class="meta">29 Sep 14:18 to 1 Oct 10:00 · 10 of 12 answered (83%) · anonymous, anyone with the link</div>
+  <p class="lede">Two to four sentences: what the group said, the strongest signal, anything surprising.</p>
+</div>
+
+<!-- Two to four key numbers. Only figures a reader would repeat to someone else. -->
+<div class="keys">
+  <div><b>9 <small>of 10</small></b><span>what this number says, as a plain phrase</span></div>
+  <div><b>3.9 <small>/ 5</small></b><span>mean for a scale or agree question</span></div>
+</div>
+
+<!-- One .part per question, in pulse order. With sections, start each section with <div class="kind">Section name</div>. -->
+<div class="part">
+  <h2>Question prompt, or a shorter heading that means the same</h2>
+  <!-- single / multi: one row per option, zero counts left out. --pct is the count as a percentage of the people who answered the question. -->
+  <div class="rows" role="table" aria-label="Answers, out of 10 people">
+    <div class="s">Option A</div><div class="fill" style="--pct:50" title="5 of 10"><i></i>5</div>
+    <div class="s">Option B</div><div class="fill" style="--pct:30" title="3 of 10"><i></i>3</div>
+  </div>
+  <p><strong>The finding in a few words.</strong> One or two sentences on what the chart shows.</p>
+  <p class="fine">Small print: pick limits, options nobody chose.</p>
+</div>
+
+<div class="part">
+  <h2>A scale or agree question</h2>
+  <!-- scale / agree: one row per point of the distribution, 1 to max, zeros kept. State the mean in the sentence. -->
+  <div class="rows" role="table" aria-label="Distribution, out of 8 people">
+    <div class="s">1 · Fully disagree</div><div class="fill" style="--pct:0" title="0 of 8"><i></i>0</div>
+    <div class="s">2</div><div class="fill" style="--pct:12.5" title="1 of 8"><i></i>1</div>
+    <div class="s">3</div><div class="fill" style="--pct:12.5" title="1 of 8"><i></i>1</div>
+    <div class="s">4</div><div class="fill" style="--pct:50" title="4 of 8"><i></i>4</div>
+    <div class="s">5 · Fully agree</div><div class="fill" style="--pct:25" title="2 of 8"><i></i>2</div>
+  </div>
+  <p><strong>Mean 3.9 of 5.</strong> One sentence.</p>
+</div>
+
+<!-- Questions that share one option list (same option_set_id): one grid, one column per question. Set --cols to the number of questions. -->
+<div class="part">
+  <h2>Heading for the group of questions</h2>
+  <div class="stages" style="--cols:2" role="table" aria-label="Answers per option, out of 10 people">
+    <div class="h"></div><div class="h">Short name of question 1</div><div class="h">Short name of question 2</div>
+    <div class="s">Option A</div><div class="fill" style="--pct:70" title="7 of 10"><i></i>7</div><div class="fill" style="--pct:20" title="2 of 10"><i></i>2</div>
+    <div class="s">Option B</div><div class="fill" style="--pct:100" title="10 of 10"><i></i>10</div><div class="fill" style="--pct:60" title="6 of 10"><i></i>6</div>
+  </div>
+</div>
+
+<!-- Text questions: themes, most common first. Leave the <blockquote> lines out when the owner said no quotes. -->
+<div class="part">
+  <h2>In their words</h2>
+  <p>8 people answered "The text question prompt".</p>
+  <ul class="themes">
+    <li><strong>Theme as a short statement <span>3 comments</span></strong>
+      <blockquote>"An exact quote."</blockquote></li>
+    <li><strong>Another theme <span>2 comments</span></strong></li>
+  </ul>
+</div>
+
+<div class="part">
+  <h2>Proposed actions</h2>
+  <ol class="acts">
+    <li>An action the answers support.<span>From: the result it comes from, with its number.</span></li>
+  </ol>
+</div>
+
+<div class="end">
+  <div>Written with Claude Code on 6 Oct 2026 from 10 answers.</div>
+</div>

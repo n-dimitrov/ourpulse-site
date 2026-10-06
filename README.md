@@ -43,10 +43,13 @@ Say "ask the team which day works for the demo, close in 2 hours", or `/ourpulse
 
 Question types: single, multi, agree, scale, text, with optional sections.
 
+Afterwards, say "write the report and push it". The skill writes an HTML report from the results (key numbers, a chart per question, comment themes, proposed actions), asks whether to include quotes, opens a preview, and pushes it to the pulse once you approve. You get a link to share; nobody else does.
+
 ## Maintaining
 
 - The skill and the manifests are edited here. Bump `version` in `.claude-plugin/plugin.json` on every change, or installed copies do not update.
 - There are two catalogs with the same content: `.claude-plugin/marketplace.json` (relative source, for installs by repo name) and `docs/marketplace.json` (HTTPS git URL, for installs by URL; an explicit `https://` source clones without a GitHub SSH key). Change both together.
+- `skills/ourpulse/report-preview.html` copies the report styles from the app (`src/lib/reports.ts`), so the local preview matches the served page. Change both together.
 - `docs/index.html` copies its colours and base styles from the app. The app itself is a Cloudflare Worker in a private repo; on `ourpulse.click` it answers `/s`, `/r`, `/me`, `/auth`, `/api` and `/cli`, and every other path is served from `docs/`.
 
 Open issues here.
