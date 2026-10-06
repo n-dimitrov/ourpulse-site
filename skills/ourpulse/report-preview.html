@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Report preview · OurPulse</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" />
+<!-- Local preview shell. Mirrors BASE_CSS (src/lib/page.ts) and REPORT_CSS (src/lib/reports.ts) in the OurPulse app; keep them in step. -->
+<style>
+  :root {
+    --bg: #F6F4EE; --ink: #1B1A17; --muted: #5C5A55; --faint: #7A776F; --line: #E2DED4; --line-strong: #CFCABD;
+    --card: #FFFFFF; --track: #E6E2D8; --accent: #2B4FD1; --accent-soft: #EEF1FD; --accent-ink: #FFFFFF; --ok: #0F766E;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    --bg: #17171A; --ink: #F1EFE9; --muted: #A8A49B; --faint: #8B877E; --line: #34343A; --line-strong: #44444B;
+    --card: #202024; --track: #2C2C31; --accent: #6D8CFF; --accent-soft: #23283F; --accent-ink: #0F1330; --ok: #4FD1C5;
+    color-scheme: dark;
+  } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 'Instrument Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: Outfit, 'Instrument Sans', sans-serif; font-weight: 600; letter-spacing: -.3px; margin: 0; text-wrap: balance; }
+  a { color: var(--accent); }
+  .muted { color: var(--muted); }
+  .small { font-size: .85rem; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 44px; }
+  .brand { display: inline-flex; align-items: center; gap: .4em; font-family: Outfit, sans-serif; font-weight: 700; font-size: 1.125rem; }
+  .brand svg { width: 1.3em; height: 1.3em; color: var(--accent); flex: none; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 1rem; }
+  .report { max-width: 46rem; margin: 0 auto; padding: 1.25rem 1.25rem 3rem; display: flex; flex-direction: column; gap: 2.25rem; }
+  .report :is(h1, h2, h3, p, ol, ul, blockquote) { margin: 0; }
+  .kind { font: 600 .75rem ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+  .head { display: flex; flex-direction: column; gap: .5rem; margin-top: -1rem; }
+  .head h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.1; letter-spacing: -.6px; }
+  .meta { color: var(--muted); font-size: .9rem; }
+  .lede { font-size: 1.0625rem; }
+  .keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.5rem), 1fr)); gap: 1rem 1.5rem; }
+  .keys > div { border-top: 2px solid var(--ink); padding-top: .6rem; display: flex; flex-direction: column; gap: .15rem; }
+  .keys b { font: 600 1.9rem/1.1 Outfit, sans-serif; font-variant-numeric: tabular-nums; }
+  .keys b small { font: 500 .95rem Outfit, sans-serif; color: var(--muted); }
+  .keys span { color: var(--muted); font-size: .9rem; }
+  .part { display: flex; flex-direction: column; gap: .9rem; }
+  .part h2 { font-size: 1.3rem; }
+  .part > p { color: var(--muted); font-size: .9375rem; }
+  .part > p strong { color: var(--ink); font-weight: 600; }
+  .fill { display: flex; align-items: center; gap: .35rem; border-left: 1px solid var(--line-strong); min-width: 0; font: 500 .8rem 'Instrument Sans', sans-serif; font-variant-numeric: tabular-nums; }
+  .fill i { display: block; height: 10px; width: calc(var(--pct) * (100% - 2rem) / 100); background: var(--accent); border-radius: 0 4px 4px 0; flex: none; }
+  .rows, .stages { display: grid; gap: .5rem .9rem; align-items: center; font-size: .875rem; }
+  .rows { grid-template-columns: minmax(7rem, 17rem) minmax(0, 1fr); }
+  .stages { grid-template-columns: minmax(5.6rem, 10.5rem) repeat(var(--cols, 3), minmax(0, 1fr)); }
+  .stages .h { font: 600 .72rem/1.3 'Instrument Sans', sans-serif; color: var(--muted); align-self: end; padding-bottom: .25rem; border-bottom: 1px solid var(--line); }
+  .rows .s, .stages .s { overflow-wrap: anywhere; line-height: 1.25; }
+  .fine { font-size: .8rem; color: var(--faint); }
+  .themes { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1.1rem; }
+  .themes li { display: flex; flex-direction: column; gap: .35rem; }
+  .themes strong { font-weight: 600; }
+  .themes strong span { font-weight: 400; color: var(--faint); font-size: .85rem; margin-left: .3rem; }
+  .themes blockquote { padding-left: .85rem; border-left: 2px solid var(--line-strong); color: var(--muted); font-size: .9375rem; }
+  .acts { padding-left: 1.2rem; display: flex; flex-direction: column; gap: .7rem; font-size: .9375rem; }
+  .acts span { display: block; color: var(--faint); font-size: .82rem; }
+  .end { border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); display: flex; flex-direction: column; gap: .25rem; }
+</style>
+</head>
+<body>
+<div class="report">
+<div class="top"><span class="brand"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</span><span class="kind">Report · preview, not pushed</span></div>
+<!--REPORT_BODY-->
+</div>
+</body>
+</html>
