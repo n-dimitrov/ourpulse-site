@@ -62,6 +62,7 @@
   <ul>
     <li>Your Google account identifier and email address, to recognise you on the next sign-in and to show which account you are using. Nothing else from your Google account; the sign-in asks only for <code>openid</code> and <code>email</code>.</li>
     <li>The pulses you create (title, questions, open and close times, settings), their answers, any report you push, webhook URLs you register, and API keys you create. Keys are stored as a hash; the key itself is shown once.</li>
+    <li>A log of what you did in the app: that you signed in, created a pulse, asked for a draft, opened results, pushed a report or made an API key, with the time and whether it came from the browser, the API or the command line. It has no page views, no IP address and nothing about respondents. It is used only to see whether OurPulse is being used and how. When you delete your account the entries lose their link to you and only the counts remain.</li>
     <li>When you use the "Describe it, get a draft" card, the text you typed or dictated, your time zone and local time are sent to the AI model (see <a href="#processors">Who else processes data</a>) and are not stored by OurPulse. Speech is recognised by your browser or device; no audio reaches OurPulse.</li>
   </ul>
 
@@ -97,7 +98,7 @@
 
   <h2>What OurPulse does not do</h2>
   <ul>
-    <li>No analytics, no advertising, no tracking pixels, no fingerprinting.</li>
+    <li>No analytics scripts, no advertising, no tracking pixels, no fingerprinting. Usage is counted from the log above and the answers themselves, inside the database.</li>
     <li>No selling or sharing of data with anyone for their own purposes.</li>
     <li>No profiling or automated decisions about you.</li>
     <li>Your IP address is not stored in the database. Cloudflare keeps short-lived request logs for operating and securing the service; see below.</li>
