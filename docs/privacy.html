@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Privacy policy · OurPulse</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" />
+<meta name="description" content="What OurPulse stores about pulse owners and respondents, for how long, who processes it, and how to ask for it." />
+<!-- Tokens and base styles mirror src/lib/page.ts in the OurPulse app; keep them in step. -->
+<style>
+  :root {
+    --bg: #F6F4EE; --ink: #1B1A17; --muted: #5C5A55; --faint: #7A776F; --line: #E2DED4; --line-strong: #CFCABD;
+    --card: #FFFFFF; --track: #E6E2D8; --accent: #2B4FD1; --accent-soft: #EEF1FD; --accent-ink: #FFFFFF; --ok: #0F766E;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    --bg: #17171A; --ink: #F1EFE9; --muted: #A8A49B; --faint: #8B877E; --line: #34343A; --line-strong: #44444B;
+    --card: #202024; --track: #2C2C31; --accent: #6D8CFF; --accent-soft: #23283F; --accent-ink: #0F1330; --ok: #4FD1C5;
+    color-scheme: dark;
+  } }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 'Instrument Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: Outfit, 'Instrument Sans', sans-serif; font-weight: 600; letter-spacing: -.3px; margin: 0; text-wrap: balance; }
+  h1 { font-size: 1.75rem; line-height: 1.2; }
+  h2 { font-size: 1.2rem; margin-top: 2rem; }
+  h3 { font-size: 1rem; margin-top: 1.1rem; }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .muted { color: var(--muted); }
+  .small { font-size: .85rem; }
+  .wrap { max-width: 40rem; margin: 0 auto; padding: 1.25rem 1.25rem 3rem; min-height: 100%; display: flex; flex-direction: column; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 44px; }
+  .brand { display: inline-flex; align-items: center; gap: .4em; font-family: Outfit, sans-serif; font-weight: 700; font-size: 1.125rem; color: inherit; text-decoration: none; }
+  .brand svg { width: 1.3em; height: 1.3em; color: var(--accent); flex: none; }
+  p, ul, ol { margin: .6rem 0 0; }
+  ul, ol { padding-left: 1.25rem; }
+  li { margin-top: .25rem; }
+  code { font-size: .9em; }
+  table { border-collapse: collapse; width: 100%; margin-top: .75rem; font-size: .9375rem; }
+  th, td { text-align: left; vertical-align: top; padding: .45rem .5rem .45rem 0; border-bottom: 1px solid var(--line); }
+  th { font-weight: 600; color: var(--muted); font-size: .85rem; }
+  .foot { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="brand" href="/"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</a></div>
+
+  <h1 style="margin-top:2rem">Privacy policy</h1>
+  <p class="muted">Last updated 7 October 2026.</p>
+
+  <p>OurPulse lets a person (the <b>owner</b>) ask a group of people (the <b>respondents</b>) a few questions, and shows the answers as a whole. This page says what the service stores, why, for how long, who else touches it, and how to ask about it. It is written to match what the software actually does.</p>
+
+  <h2>Who is responsible</h2>
+  <p>OurPulse at <a href="https://ourpulse.click">ourpulse.click</a> is run by Niki Dimitrov, a private individual in Bulgaria. For anything on this page, write to <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a>.</p>
+  <p>For the questions an owner asks and the answers they collect, the owner decides what is asked and who gets the links; OurPulse processes that data on the owner's behalf. For owner accounts and the running of the service, OurPulse is the controller.</p>
+
+  <h2>Owners</h2>
+  <p>To create pulses you sign in with Google. OurPulse stores:</p>
+  <ul>
+    <li>Your Google account identifier and email address, to recognise you on the next sign-in and to show which account you are using. Nothing else from your Google account; the sign-in asks only for <code>openid</code> and <code>email</code>.</li>
+    <li>The pulses you create (title, questions, open and close times, settings), their answers, any report you push, webhook URLs you register, and API keys you create. Keys are stored as a hash; the key itself is shown once.</li>
+    <li>When you use the "Describe it, get a draft" card, the text you typed or dictated, your time zone and local time are sent to the AI model (see <a href="#processors">Who else processes data</a>) and are not stored by OurPulse. Speech is recognised by your browser or device; no audio reaches OurPulse.</li>
+  </ul>
+
+  <h2>Respondents</h2>
+  <p>You do not need an account to answer. What is stored depends on how the owner set up the pulse.</p>
+
+  <h3>Pulses open to anyone with the link</h3>
+  <ul>
+    <li>No sign-in. A cookie set for that one pulse marks your browser as having answered, so the same browser cannot answer twice. It holds a random value, not your identity.</li>
+    <li>Your answers are stored with a two-word pseudonym chosen at random, or with whatever name you typed over it. If you type your real name, it is stored with your answers and shown to the owner.</li>
+    <li>OurPulse cannot otherwise tell who answered. The owner sees the pseudonym or typed name, the answers and the time.</li>
+  </ul>
+
+  <h3>Pulses that require Google sign-in</h3>
+  <ul>
+    <li>You sign in with Google so that each person can answer once. OurPulse keeps a one-way token derived from the pulse and your Google account; it blocks a second answer and cannot be reversed into your account, and it is never stored together with your answers.</li>
+    <li>Your answers are stored without your name, unless the owner made the pulse <i>named</i>. The owner is told whether a pulse is named when they create it, and the answer form says so.</li>
+    <li>If you also own pulses, the same session cookie is used.</li>
+  </ul>
+
+  <h3>Free-text answers</h3>
+  <p>Whatever you type into a text question is stored as is. If you write something that identifies you or another person, it is kept with the answers and shown to the owner and to anyone the owner shares the results or report link with.</p>
+
+  <h2>Cookies</h2>
+  <table>
+    <tr><th>Cookie</th><th>Who</th><th>Purpose</th><th>Lifetime</th></tr>
+    <tr><td>Session</td><td>Owners, and respondents on sign-in pulses</td><td>Keeps you signed in.</td><td>30 days</td></tr>
+    <tr><td>Sign-in state</td><td>Anyone signing in</td><td>Protects the Google sign-in round-trip.</td><td>10 minutes</td></tr>
+    <tr><td>One per pulse</td><td>Respondents on open pulses</td><td>Blocks a second answer from the same browser.</td><td>1 year</td></tr>
+  </table>
+  <p>Every cookie is needed for the service to work; none is used for analytics, advertising or tracking across sites, and no third-party cookies are set. That is why there is no cookie banner.</p>
+  <p>Your browser's local storage keeps small preferences such as the speech language you picked. It never leaves your browser.</p>
+
+  <h2>What OurPulse does not do</h2>
+  <ul>
+    <li>No analytics, no advertising, no tracking pixels, no fingerprinting.</li>
+    <li>No selling or sharing of data with anyone for their own purposes.</li>
+    <li>No profiling or automated decisions about you.</li>
+    <li>Your IP address is not stored in the database. Cloudflare keeps short-lived request logs for operating and securing the service; see below.</li>
+  </ul>
+
+  <h2 id="processors">Who else processes data</h2>
+  <p>OurPulse runs on services provided by other companies. Each acts on OurPulse's instructions and sees only what is needed for its part.</p>
+  <table>
+    <tr><th>Provider</th><th>What for</th><th>What it sees</th></tr>
+    <tr><td>Cloudflare, Inc.</td><td>Runs the application and the database; routes mail to <code>hello@ourpulse.click</code>.</td><td>Everything stored above, plus request logs (IP address, URL, time) kept briefly for security and debugging. The database lives in Cloudflare's network, which has data centres inside and outside the European Union.</td></tr>
+    <tr><td>Google LLC</td><td>Sign-in with Google. Web fonts on the pages.</td><td>That you signed in to OurPulse, under Google's own privacy policy. Loading the fonts sends your IP address to Google; we are moving the fonts to our own domain.</td></tr>
+    <tr><td>OpenRouter, Inc. and the model provider it routes to</td><td>Turning an owner's description into a draft pulse.</td><td>The owner's description text, time zone and local time, for the duration of the request. OurPulse asks OpenRouter not to use it for training; the model provider's own terms apply.</td></tr>
+    <tr><td>GitHub, Inc.</td><td>Serves this website (the pages at <code>ourpulse.click</code> other than the app itself).</td><td>Request logs, under GitHub's privacy statement.</td></tr>
+  </table>
+  <p>Some of these companies are outside the European Economic Area. Transfers rely on the EU–US Data Privacy Framework where the company is certified, and otherwise on the European Commission's standard contractual clauses in the providers' terms.</p>
+
+  <h2>How long data is kept</h2>
+  <ul>
+    <li>A pulse and all its answers are kept until the owner deletes the pulse. Owners can also reset a pulse, which deletes every answer and keeps the questions.</li>
+    <li>An owner account, with every pulse, answer, report, webhook and API key under it, is deleted on request (see below). Deleting an owner account deletes the pulses it owns.</li>
+    <li>Sign-in requests from the command-line login expire after 10 minutes and are removed.</li>
+    <li>Database backups are kept by Cloudflare for up to 30 days.</li>
+  </ul>
+
+  <h2>Your rights</h2>
+  <p>Under the GDPR you can ask to see the data held about you, to have it corrected or deleted, to restrict or object to its processing, and to receive it in a portable form. You can also complain to a supervisory authority; in Bulgaria that is the Commission for Personal Data Protection (<a href="https://www.cpdp.bg">cpdp.bg</a>).</p>
+
+  <h3>If you are an owner</h3>
+  <ul>
+    <li>You can export each pulse as CSV, delete a pulse, reset its answers, and revoke API keys from your account pages.</li>
+    <li>To delete your account and everything under it, write to <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a> from the Google address you signed in with.</li>
+  </ul>
+
+  <h3>If you are a respondent</h3>
+  <p>Because of how answers are stored, OurPulse usually cannot find yours:</p>
+  <ul>
+    <li>On an open pulse, your answer carries only a pseudonym, unless you typed your name.</li>
+    <li>On a Google sign-in pulse, the one-way token cannot be turned back into your account, so OurPulse cannot tell which answer is yours, unless the pulse is named.</li>
+  </ul>
+  <p>The practical route is to ask the owner who sent you the link; they can see the names on a named or open pulse and remove the response or the whole pulse. If you do not know who the owner is, or they do not answer, write to <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a> with the pulse link and we will contact the owner or remove what can be identified.</p>
+
+  <h2>Security</h2>
+  <p>All traffic is over HTTPS. API keys are stored hashed. Pushed reports are served from a page that cannot run scripts or load outside resources. The one-way token for sign-in pulses is written in the same database transaction as the answer and is never joined to it.</p>
+
+  <h2>Children</h2>
+  <p>OurPulse is not aimed at children under 16. If you believe a child's data ended up in a pulse, write to the address above.</p>
+
+  <h2>Changes</h2>
+  <p>When this page changes, the date at the top changes and the previous version stays in the <a href="https://github.com/n-dimitrov/ourpulse-site/commits/main/docs/privacy.html">site's history on GitHub</a>. A change that matters to owners is announced on their account page.</p>
+
+  <p class="foot"><a href="/">Home</a> <a href="/terms">Terms of service</a> <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a></p>
+</div>
+</body>
+</html>

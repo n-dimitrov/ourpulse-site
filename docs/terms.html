@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Terms of service · OurPulse</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" />
+<meta name="description" content="The terms for using OurPulse: who provides it, what owners may do with it, and what is promised." />
+<!-- Tokens and base styles mirror src/lib/page.ts in the OurPulse app; keep them in step. -->
+<style>
+  :root {
+    --bg: #F6F4EE; --ink: #1B1A17; --muted: #5C5A55; --faint: #7A776F; --line: #E2DED4; --line-strong: #CFCABD;
+    --card: #FFFFFF; --track: #E6E2D8; --accent: #2B4FD1; --accent-soft: #EEF1FD; --accent-ink: #FFFFFF; --ok: #0F766E;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    --bg: #17171A; --ink: #F1EFE9; --muted: #A8A49B; --faint: #8B877E; --line: #34343A; --line-strong: #44444B;
+    --card: #202024; --track: #2C2C31; --accent: #6D8CFF; --accent-soft: #23283F; --accent-ink: #0F1330; --ok: #4FD1C5;
+    color-scheme: dark;
+  } }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 'Instrument Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: Outfit, 'Instrument Sans', sans-serif; font-weight: 600; letter-spacing: -.3px; margin: 0; text-wrap: balance; }
+  h1 { font-size: 1.75rem; line-height: 1.2; }
+  h2 { font-size: 1.2rem; margin-top: 2rem; }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .muted { color: var(--muted); }
+  .wrap { max-width: 40rem; margin: 0 auto; padding: 1.25rem 1.25rem 3rem; min-height: 100%; display: flex; flex-direction: column; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 44px; }
+  .brand { display: inline-flex; align-items: center; gap: .4em; font-family: Outfit, sans-serif; font-weight: 700; font-size: 1.125rem; color: inherit; text-decoration: none; }
+  .brand svg { width: 1.3em; height: 1.3em; color: var(--accent); flex: none; }
+  p, ul, ol { margin: .6rem 0 0; }
+  ul, ol { padding-left: 1.25rem; }
+  li { margin-top: .25rem; }
+  code { font-size: .9em; }
+  .foot { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="brand" href="/"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</a></div>
+
+  <h1 style="margin-top:2rem">Terms of service</h1>
+  <p class="muted">Last updated 7 October 2026.</p>
+
+  <p>These terms apply when you use OurPulse at <a href="https://ourpulse.click">ourpulse.click</a>, whether you create pulses, answer them, or call the API. By signing in, creating a pulse, or submitting an answer, you agree to them.</p>
+
+  <h2>1. Who provides the service</h2>
+  <p>OurPulse is provided by Niki Dimitrov, a private individual in Bulgaria ("we"). Contact: <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a>.</p>
+
+  <h2>2. What the service is</h2>
+  <p>OurPulse lets an <b>owner</b> write a few questions, share a link or QR code, collect answers from <b>respondents</b>, and see the results as a whole. Owners can also use it through an API, a command-line tool, and a Claude Code skill. The service is free and offered as it is.</p>
+
+  <h2>3. Accounts</h2>
+  <ul>
+    <li>Owners sign in with a Google account. You are responsible for what is done with your account and your API keys. Keep keys secret; revoke a key you think is exposed.</li>
+    <li>You must be at least 16 to create an account.</li>
+    <li>Respondents do not need an account unless the owner required Google sign-in for a pulse.</li>
+  </ul>
+
+  <h2>4. What owners are responsible for</h2>
+  <p>You decide what to ask, whom to send the link to, and whom you give results and report links to. In data-protection terms you are the controller of the answers you collect, and we process them for you as described in the <a href="/privacy">privacy policy</a>. In particular:</p>
+  <ul>
+    <li>Ask only what you are allowed to ask. If you collect answers about health, beliefs, ethnicity, sexual orientation, union membership or other special categories, or answers from children, you need a legal basis and you must tell respondents.</li>
+    <li>Tell respondents what you are collecting and why when the law or your organisation requires it. OurPulse shows respondents whether a pulse is anonymous, pseudonymous or named, but it cannot explain your purpose for you.</li>
+    <li>Results and report links are not protected by sign-in. Anyone who has the link can open it. Treat them like the data they show, and rotate a link if it has spread further than you intended.</li>
+    <li>Reports you push are shown under the OurPulse name. Do not push anything unlawful, misleading, or that infringes someone else's rights.</li>
+    <li>If a respondent asks you to see or delete their answer, deal with it; we will forward requests we receive to you where we can.</li>
+  </ul>
+
+  <h2>5. What you may not do</h2>
+  <ul>
+    <li>Use OurPulse for anything unlawful, or to harass, deceive, or discriminate against people.</li>
+    <li>Collect credentials, payment details or other secrets through a pulse.</li>
+    <li>Try to identify respondents who answered anonymously, or to break the one-answer-per-person protection.</li>
+    <li>Probe, overload, or interfere with the service or other people's pulses, or send automated traffic beyond what the API is meant for.</li>
+    <li>Pass yourself off as OurPulse or as someone else.</li>
+  </ul>
+
+  <h2>6. Misuse</h2>
+  <p>If a pulse or an account breaks these terms, we may pause or delete the pulse, revoke API keys, or close the account, with notice where that is reasonable and without it where it is not. We may also do so when we are required to by law or by a provider we depend on.</p>
+
+  <h2>7. Your content</h2>
+  <p>Questions, answers and reports stay yours (or your respondents'). You give us only the permission needed to store them and show them to the people you share links with. We do not use them for anything else, and we do not use them to train AI models. The description you type into the drafting card is sent to an AI model to produce a draft and is not stored.</p>
+
+  <h2>8. Availability and changes</h2>
+  <ul>
+    <li>There is no uptime promise. The service may be unavailable, change, or be withdrawn. We will try to give notice of a shutdown on the account page and by email, with time to export your pulses.</li>
+    <li>Features can change. The API may change; breaking changes will be announced where we can reach you.</li>
+    <li>We may delete pulses that have been closed for a long time; the privacy policy states the current retention rule once one is set.</li>
+  </ul>
+
+  <h2>9. No warranty, limited liability</h2>
+  <p>OurPulse is provided free of charge, as is, without warranty of any kind. To the extent the law allows, we are not liable for lost data, lost profit, or any indirect or consequential loss arising from using or being unable to use the service. Nothing here limits liability that cannot be limited by law, including for intent or gross negligence, and nothing here limits the rights you have as a consumer.</p>
+
+  <h2>10. Ending</h2>
+  <p>You can stop at any time: delete your pulses, revoke your keys, and ask us to delete your account. We can end the service or your access as described in sections 6 and 8.</p>
+
+  <h2>11. Changes to these terms</h2>
+  <p>When the terms change, the date at the top changes and the previous versions stay in the <a href="https://github.com/n-dimitrov/ourpulse-site/commits/main/docs/terms.html">site's history on GitHub</a>. A change that matters to owners is announced on their account page before it takes effect. Continuing to use the service after that means you accept the new terms.</p>
+
+  <h2>12. Law</h2>
+  <p>These terms are governed by the law of Bulgaria. Disputes go to the competent court in Bulgaria, unless you are a consumer in another EU country, in which case the mandatory rules and courts of your country of residence also apply.</p>
+
+  <p class="foot"><a href="/">Home</a> <a href="/privacy">Privacy policy</a> <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a></p>
+</div>
+</body>
+</html>

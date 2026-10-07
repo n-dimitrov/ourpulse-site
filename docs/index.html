@@ -206,7 +206,8 @@
   .app .q { display: flex; gap: .5rem; align-items: baseline; font-size: .72rem; }
   .app .q i { font: 600 .55rem ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); flex: none; width: 3.2rem; }
 
-  .foot { font-size: .85rem; color: var(--muted); }
+  .foot { font-size: .85rem; color: var(--muted); display: flex; gap: 1.25rem; flex-wrap: wrap; }
+  .foot a { color: inherit; }
   .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: .6rem 1rem; border-radius: 999px; font-size: .875rem; opacity: 0; transition: opacity .2s; pointer-events: none; }
   .toast.on { opacity: 1; }
 </style>
@@ -457,7 +458,7 @@ Only you have this link. Share it when you are ready.</div>
     </div>
   </div>
 
-  <p class="foot"><a href="https://github.com/n-dimitrov/ourpulse-site">Skill on GitHub</a></p>
+  <p class="foot"><a href="https://github.com/n-dimitrov/ourpulse-site">Skill on GitHub</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a></p>
   <div class="toast" id="toast">Copied</div>
 </div>
 <script>
