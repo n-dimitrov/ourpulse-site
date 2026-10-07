@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Privacy policy · OurPulse</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" />
+<link rel="stylesheet" href="/fonts/fonts.css" />
 <meta name="description" content="What OurPulse stores about pulse owners and respondents, for how long, who processes it, and how to ask for it." />
 <!-- Tokens and base styles mirror src/lib/page.ts in the OurPulse app; keep them in step. -->
 <style>
@@ -109,7 +108,7 @@
   <table>
     <tr><th>Provider</th><th>What for</th><th>What it sees</th></tr>
     <tr><td>Cloudflare, Inc.</td><td>Runs the application and the database; routes mail to <code>hello@ourpulse.click</code>.</td><td>Everything stored above, plus request logs (IP address, URL, time) kept briefly for security and debugging. The database lives in Cloudflare's network, which has data centres inside and outside the European Union.</td></tr>
-    <tr><td>Google LLC</td><td>Sign-in with Google. Web fonts on the pages.</td><td>That you signed in to OurPulse, under Google's own privacy policy. Loading the fonts sends your IP address to Google; we are moving the fonts to our own domain.</td></tr>
+    <tr><td>Google LLC</td><td>Sign-in with Google.</td><td>That you signed in to OurPulse, under Google's own privacy policy. Nothing else on the pages loads from Google; the fonts are served from ourpulse.click.</td></tr>
     <tr><td>OpenRouter, Inc. and the model provider it routes to</td><td>Turning an owner's description into a draft pulse.</td><td>The owner's description text, time zone and local time, for the duration of the request. OurPulse asks OpenRouter not to use it for training; the model provider's own terms apply.</td></tr>
     <tr><td>GitHub, Inc.</td><td>Serves this website (the pages at <code>ourpulse.click</code> other than the app itself).</td><td>Request logs, under GitHub's privacy statement.</td></tr>
   </table>
