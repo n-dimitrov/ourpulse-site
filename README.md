@@ -12,7 +12,29 @@ Ask a group of humans a question from Claude Code, hand them a link and a QR cod
 
 ### Install
 
-Inside Claude Code, once:
+One line. It asks which agent you use and copies the skill into that agent's skills folder; re-run it to upgrade.
+
+```
+curl -LsSf https://ourpulse.click/install.sh | sh          # Mac, Linux
+irm https://ourpulse.click/install.ps1 | iex               # Windows (PowerShell)
+```
+
+| agent | global | in a project |
+|---|---|---|
+| `claude` (default) | `~/.claude/skills` | `.claude/skills` |
+| `agents` — shared by Codex, Gemini CLI, Copilot, Cursor, OpenCode | `~/.agents/skills` | `.agents/skills` |
+| `codex` | `~/.agents/skills` | `.agents/skills` |
+| `gemini` | `~/.gemini/skills` | `.gemini/skills` |
+| `copilot` (GitHub Copilot, VS Code) | `~/.copilot/skills` | `.github/skills` |
+| `cursor` | `~/.cursor/skills` | `.cursor/skills` |
+| `opencode` | `~/.config/opencode/skills` | `.opencode/skills` |
+
+Skip the question with `--agent codex`, install into the current project with `--local` (commit it and the team has it),
+or name any folder with `--dir`: `curl -LsSf https://ourpulse.click/install.sh | sh -s -- --agent codex --local`.
+On Windows: `& ([scriptblock]::Create((irm https://ourpulse.click/install.ps1))) -Agent codex -Local`.
+Without a terminal (CI, piped input) it installs for Claude Code.
+
+Or as a plugin, inside Claude Code, once:
 
 ```
 /plugin marketplace add https://ourpulse.click/marketplace.json
