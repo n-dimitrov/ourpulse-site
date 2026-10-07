@@ -117,7 +117,7 @@
   <h2>How long data is kept</h2>
   <ul>
     <li>A pulse and all its answers are kept until the owner deletes the pulse. Owners can also reset a pulse, which deletes every answer and keeps the questions.</li>
-    <li>An owner account, with every pulse, answer, report, webhook and API key under it, is deleted on request (see below). Deleting an owner account deletes the pulses it owns.</li>
+    <li>An owner account, with every pulse, answer, report, webhook and API key under it, is deleted when the owner presses <i>Delete my account</i>. There is no automatic expiry of closed pulses.</li>
     <li>Sign-in requests from the command-line login expire after 10 minutes and are removed.</li>
     <li>Database backups are kept by Cloudflare for up to 30 days.</li>
   </ul>
@@ -128,7 +128,7 @@
   <h3>If you are an owner</h3>
   <ul>
     <li>You can export each pulse as CSV, delete a pulse, reset its answers, and revoke API keys from your account pages.</li>
-    <li>To delete your account and everything under it, write to <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a> from the Google address you signed in with.</li>
+    <li>To delete your account and everything under it, open <i>Account</i> from the menu in the top right and press <i>Delete my account</i>. It takes effect at once.</li>
   </ul>
 
   <h3>If you are a respondent</h3>
@@ -137,7 +137,7 @@
     <li>On an open pulse, your answer carries only a pseudonym, unless you typed your name.</li>
     <li>On a Google sign-in pulse, the one-way token cannot be turned back into your account, so OurPulse cannot tell which answer is yours, unless the pulse is named.</li>
   </ul>
-  <p>The practical route is to ask the owner who sent you the link; they can see the names on a named or open pulse and remove the response or the whole pulse. If you do not know who the owner is, or they do not answer, write to <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a> with the pulse link and we will contact the owner or remove what can be identified.</p>
+  <p>The practical route is to ask the owner who sent you the link; they can remove a single response from their results page, by name on a named or open pulse, or by the time you answered on an anonymous one. If you do not know who the owner is, or they do not answer, write to <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a> with the pulse link and we will contact the owner or remove what can be identified.</p>
 
   <h2>Security</h2>
   <p>All traffic is over HTTPS. API keys are stored hashed. Pushed reports are served from a page that cannot run scripts or load outside resources. The one-way token for sign-in pulses is written in the same database transaction as the answer and is never joined to it.</p>
