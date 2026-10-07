@@ -99,7 +99,7 @@
 
   <h2>What OurPulse does not do</h2>
   <ul>
-    <li>No analytics scripts, no advertising, no tracking pixels, no fingerprinting. Usage is counted from the log above and the answers themselves, inside the database.</li>
+    <li>No advertising, no tracking pixels, no fingerprinting. The app pages (pulses, results, your account) load no analytics script; usage is counted from the log above and the answers themselves, inside the database. The public landing site (this page, the home page and the terms) loads Cloudflare Web Analytics, a cookieless page-view counter that keeps no IP address and does not follow you across sites.</li>
     <li>No selling or sharing of data with anyone for their own purposes.</li>
     <li>No profiling or automated decisions about you.</li>
     <li>Your IP address is not stored in the database. Cloudflare keeps short-lived request logs for operating and securing the service; see below.</li>
@@ -109,7 +109,7 @@
   <p>OurPulse runs on services provided by other companies. Each acts on OurPulse's instructions and sees only what is needed for its part.</p>
   <table>
     <tr><th>Provider</th><th>What for</th><th>What it sees</th></tr>
-    <tr><td>Cloudflare, Inc.</td><td>Runs the application and the database; routes mail to <code>hello@ourpulse.click</code>.</td><td>Everything stored above, plus request logs (IP address, URL, time) kept briefly for security and debugging. The database lives in Cloudflare's network, which has data centres inside and outside the European Union.</td></tr>
+    <tr><td>Cloudflare, Inc.</td><td>Runs the application and the database; counts page views on the landing site; routes mail to <code>hello@ourpulse.click</code>.</td><td>Everything stored above, plus request logs (IP address, URL, time) kept briefly for security and debugging, and aggregate page-view counts for the landing site. The database lives in Cloudflare's network, which has data centres inside and outside the European Union.</td></tr>
     <tr><td>Google LLC</td><td>Sign-in with Google.</td><td>That you signed in to OurPulse, under Google's own privacy policy. Nothing else on the pages loads from Google; the fonts are served from ourpulse.click.</td></tr>
     <tr><td>OpenRouter, Inc. and the model provider it routes to</td><td>Turning an owner's description into a draft pulse.</td><td>The owner's description text, time zone and local time, for the duration of the request. OurPulse asks OpenRouter not to use it for training; the model provider's own terms apply.</td></tr>
     <tr><td>GitHub, Inc.</td><td>Serves this website (the pages at <code>ourpulse.click</code> other than the app itself).</td><td>Request logs, under GitHub's privacy statement.</td></tr>
@@ -152,5 +152,7 @@
 
   <p class="foot"><a href="/">Home</a> <a href="/terms">Terms of service</a> <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a></p>
 </div>
+<!-- Cloudflare Web Analytics: cookieless page-view count on the public landing site only; the app pages carry no analytics script. -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4b1772fc0d824607872009bd4c4ebe4b"}'></script>
 </body>
 </html>
