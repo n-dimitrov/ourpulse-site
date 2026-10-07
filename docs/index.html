@@ -51,7 +51,7 @@
   a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   /* Hero: one promise, two doors. On a phone the voice door comes first; nobody installs a plugin from there. */
   .hero { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 2rem 3rem; align-items: stretch; }
-  .pitch { display: flex; flex-direction: column; gap: 1rem; min-width: 0; grid-column: 1 / -1; }
+  .pitch { display: flex; flex-direction: column; gap: 1rem; min-width: 0; grid-column: 1 / -1; order: -2; }
   .pitch h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.08; letter-spacing: -.8px; max-width: 24ch; }
   .pitch p { color: var(--muted); font-size: 1.0625rem; max-width: 34rem; }
 
@@ -107,6 +107,7 @@
   .what p { color: var(--muted); font-size: .9375rem; max-width: 36rem; }
   .also { font: .76rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--faint); }
   .also b { color: var(--accent); font-weight: 400; }
+  @media (max-width: 32rem) { .also b:not(:first-child)::before { content: '\A'; white-space: pre; } }
 
   /* Terminal window: one fixed size for all phases. */
   .term { height: 21.5rem; background: var(--code-bg); color: var(--code-ink); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
@@ -233,7 +234,7 @@
       <p>Claude Code, Codex, Gemini CLI, Copilot, Cursor or OpenCode: the installer asks which and puts the skill in its folder. Open a new session and say <span class="say">ask the team …</span> The first time, your browser opens: sign in with Google and press Approve. There is no key to copy.</p>
     </div>
     <div class="door voice">
-      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>Or just say it</h3>
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>Say it on your phone</h3>
       <p>Sign in, tap the mic and describe who it's for, what to ask and when it closes. The questions are drafted in a few seconds; you check them and press Create.</p>
       <a class="btn" href="/me/new">Sign in with Google</a>
     </div>
