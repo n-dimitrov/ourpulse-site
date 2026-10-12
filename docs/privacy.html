@@ -50,7 +50,7 @@
   <div class="top"><a class="brand" href="/"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</a></div>
 
   <h1 style="margin-top:2rem">Privacy policy</h1>
-  <p class="muted">Last updated 7 October 2026.</p>
+  <p class="muted">Last updated 12 October 2026.</p>
 
   <p>OurPulse lets a person (the <b>owner</b>) ask a group of people (the <b>respondents</b>) a few questions, and shows the answers as a whole. This page says what the service stores, why, for how long, who else touches it, and how to ask about it. It is written to match what the software actually does.</p>
 
@@ -61,7 +61,7 @@
   <h2>Owners</h2>
   <p>To create pulses you sign in with Google. OurPulse stores:</p>
   <ul>
-    <li>Your Google account identifier and email address, to recognise you on the next sign-in and to show which account you are using. Nothing else from your Google account; the sign-in asks only for <code>openid</code> and <code>email</code>.</li>
+    <li>Your Google account identifier and email address, to recognise you on the next sign-in and to show which account you are using. Nothing else from your Google account; the sign-in asks only for <code>openid</code> and <code>email</code>. The first time you sign in, OurPulse sends one welcome email to that address, with the link back to the app and a reply address. It is the only email OurPulse sends on its own.</li>
     <li>The pulses you create (title, questions, open and close times, settings), their answers, any report you push, webhook URLs you register, and API keys you create. Keys are stored as a hash; the key itself is shown once.</li>
     <li>A log of what you did in the app: that you signed in, created a pulse, asked for a draft, opened results, pushed a report or made an API key, with the time and whether it came from the browser, the API or the command line. It has no page views, no IP address and nothing about respondents. It is used only to see whether OurPulse is being used and how. When you delete your account the entries lose their link to you and only the counts remain.</li>
     <li>When you use the "Describe it, get a draft" card, the text you typed or dictated, your time zone and local time are sent to the AI model (see <a href="#processors">Who else processes data</a>) and are not stored by OurPulse. Speech is recognised by your browser or device; no audio reaches OurPulse.</li>
@@ -112,6 +112,7 @@
     <tr><td>Cloudflare, Inc.</td><td>Runs the application and the database; counts page views on the landing site; routes mail to <code>hello@ourpulse.click</code>.</td><td>Everything stored above, plus request logs (IP address, URL, time) kept briefly for security and debugging, and aggregate page-view counts for the landing site. The database lives in Cloudflare's network, which has data centres inside and outside the European Union.</td></tr>
     <tr><td>Google LLC</td><td>Sign-in with Google.</td><td>That you signed in to OurPulse, under Google's own privacy policy. Nothing else on the pages loads from Google; the fonts are served from ourpulse.click.</td></tr>
     <tr><td>OpenRouter, Inc. and the model provider it routes to</td><td>Turning an owner's description into a draft pulse.</td><td>The owner's description text, time zone and local time, for the duration of the request. OurPulse asks OpenRouter not to use it for training; the model provider's own terms apply.</td></tr>
+    <tr><td>Resend, Inc.</td><td>Delivers the welcome email to a new owner.</td><td>The owner's email address and the welcome message, kept in Resend's delivery log under Resend's own privacy policy.</td></tr>
     <tr><td>GitHub, Inc.</td><td>Serves this website (the pages at <code>ourpulse.click</code> other than the app itself).</td><td>Request logs, under GitHub's privacy statement.</td></tr>
   </table>
   <p>Some of these companies are outside the European Economic Area. Transfers rely on the EU–US Data Privacy Framework where the company is certified, and otherwise on the European Commission's standard contractual clauses in the providers' terms.</p>
