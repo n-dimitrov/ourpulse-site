@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Guides · OurPulse</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/fonts/fonts.css" />
+<link rel="canonical" href="https://ourpulse.click/guides/" />
+<meta name="description" content="Short how-to guides for OurPulse: one job each, with the exact words to type and screenshots from real runs." />
+<!-- Tokens and base styles mirror src/lib/page.ts in the OurPulse app; keep them in step. -->
+<style>
+  :root {
+    --bg: #F6F4EE; --ink: #1B1A17; --muted: #5C5A55; --faint: #7A776F; --line: #E2DED4; --line-strong: #CFCABD;
+    --card: #FFFFFF; --track: #E6E2D8; --accent: #2B4FD1; --accent-soft: #EEF1FD; --accent-ink: #FFFFFF; --ok: #0F766E;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    --bg: #17171A; --ink: #F1EFE9; --muted: #A8A49B; --faint: #8B877E; --line: #34343A; --line-strong: #44444B;
+    --card: #202024; --track: #2C2C31; --accent: #6D8CFF; --accent-soft: #23283F; --accent-ink: #0F1330; --ok: #4FD1C5;
+    color-scheme: dark;
+  } }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 'Instrument Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2 { font-family: Outfit, 'Instrument Sans', sans-serif; font-weight: 600; letter-spacing: -.3px; margin: 0; text-wrap: balance; }
+  h1 { font-size: 1.75rem; line-height: 1.2; }
+  h2 { font-size: 1.1rem; }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .muted { color: var(--muted); }
+  .wrap { max-width: 40rem; margin: 0 auto; padding: 1.25rem 1.25rem 3rem; min-height: 100%; display: flex; flex-direction: column; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 44px; }
+  .brand { display: inline-flex; align-items: center; gap: .4em; font-family: Outfit, sans-serif; font-weight: 700; font-size: 1.125rem; color: inherit; text-decoration: none; }
+  .brand svg { width: 1.3em; height: 1.3em; color: var(--accent); flex: none; }
+  p { margin: .6rem 0 0; }
+  .list { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: .75rem; }
+  .list a { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: .9rem 1rem; color: inherit; text-decoration: none; }
+  .list a:hover { border-color: var(--accent); }
+  .list .tag { display: inline-block; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); background: var(--accent-soft); padding: .1rem .5rem; border-radius: 999px; font-weight: 600; margin-bottom: .35rem; }
+  .list p { color: var(--muted); font-size: .95rem; margin-top: .25rem; }
+  .foot { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="brand" href="/"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</a></div>
+
+  <h1 style="margin-top:2rem">Guides</h1>
+  <p class="muted">One job per page, with the exact words to type and screenshots from real runs.</p>
+
+  <ul class="list">
+    <li><a href="/guides/first-pulse-from-your-agent"><span class="tag">Agent</span><h2>First pulse from your agent</h2><p>Install the skill, connect it once, ask the team one question, and get the answers and a report back. Seven steps.</p></a></li>
+  </ul>
+
+  <p class="foot"><a href="/">Home</a> <a href="/privacy">Privacy</a> <a href="/terms">Terms</a> <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a></p>
+</div>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4b1772fc0d824607872009bd4c4ebe4b"}'></script>
+</body>
+</html>

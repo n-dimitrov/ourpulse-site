@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>First pulse from your agent · OurPulse guides</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/fonts/fonts.css" />
+<link rel="canonical" href="https://ourpulse.click/guides/first-pulse-from-your-agent" />
+<meta name="description" content="Install the OurPulse skill, connect your coding agent once, ask the team one question, and get the answers and a report back. Seven steps with screenshots." />
+<meta property="og:title" content="First pulse from your agent · OurPulse" />
+<meta property="og:description" content="Install the skill, connect once, ask the team, get the answers and a report back. Seven steps with screenshots." />
+<meta property="og:image" content="https://ourpulse.click/og.png" />
+<!-- Tokens and base styles mirror src/lib/page.ts in the OurPulse app; keep them in step. -->
+<style>
+  :root {
+    --bg: #F6F4EE; --ink: #1B1A17; --muted: #5C5A55; --faint: #7A776F; --line: #E2DED4; --line-strong: #CFCABD;
+    --card: #FFFFFF; --track: #E6E2D8; --accent: #2B4FD1; --accent-soft: #EEF1FD; --accent-ink: #FFFFFF; --ok: #0F766E;
+    --term-bg: #1B1A17; --term-ink: #F1EFE9; --term-dim: #A8A49B; --term-ok: #7FD1A0; --term-you: #9DB4FF;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    --bg: #17171A; --ink: #F1EFE9; --muted: #A8A49B; --faint: #8B877E; --line: #34343A; --line-strong: #44444B;
+    --card: #202024; --track: #2C2C31; --accent: #6D8CFF; --accent-soft: #23283F; --accent-ink: #0F1330; --ok: #4FD1C5;
+    --term-bg: #0F0F12;
+    color-scheme: dark;
+  } }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 'Instrument Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: Outfit, 'Instrument Sans', sans-serif; font-weight: 600; letter-spacing: -.3px; margin: 0; text-wrap: balance; }
+  h1 { font-size: 1.85rem; line-height: 1.2; }
+  h2 { font-size: 1.2rem; }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .muted { color: var(--muted); }
+  .wrap { max-width: 40rem; margin: 0 auto; padding: 1.25rem 1.25rem 3rem; min-height: 100%; display: flex; flex-direction: column; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 44px; }
+  .brand { display: inline-flex; align-items: center; gap: .4em; font-family: Outfit, sans-serif; font-weight: 700; font-size: 1.125rem; color: inherit; text-decoration: none; }
+  .brand svg { width: 1.3em; height: 1.3em; color: var(--accent); flex: none; }
+  .top a.guides { font-size: .9rem; color: var(--muted); text-decoration: none; }
+  p, ul, ol { margin: .6rem 0 0; }
+  ul { padding-left: 1.25rem; }
+  code { font-size: .9em; background: var(--track); padding: .05em .35em; border-radius: 4px; }
+  .eyebrow { margin-top: 2rem; font-size: .8rem; color: var(--faint); text-transform: uppercase; letter-spacing: .06em; }
+  .lede { color: var(--muted); font-size: 1.05rem; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .75rem; margin-top: 1.25rem; }
+  .facts div { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: .7rem .9rem; font-size: .95rem; }
+  .facts b { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--faint); margin-bottom: .2rem; }
+  .step { margin-top: 2.5rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+  .step .n { display: block; font-size: .8rem; color: var(--accent); font-weight: 600; margin-bottom: .2rem; }
+  .say { border-left: 3px solid var(--accent); padding: .3rem .9rem; margin: .7rem 0; font-style: italic; }
+  pre { background: var(--track); border-radius: 8px; padding: .75rem .9rem; margin: .6rem 0 0; overflow-x: auto; font: .84rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  pre.term { background: var(--term-bg); color: var(--term-ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+  pre.term .d { color: var(--term-dim); } pre.term .ok { color: var(--term-ok); } pre.term .p { color: var(--term-you); }
+  figure { margin: .9rem 0 0; }
+  figure img { display: block; width: 100%; max-width: 100%; border: 1px solid var(--line); border-radius: 10px; background: #F6F4EE; }
+  figcaption { font-size: .85rem; color: var(--muted); margin-top: .35rem; }
+  .foot { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="brand" href="/"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</a><a class="guides" href="/guides/">Guides</a></div>
+
+  <p class="eyebrow">Guide · 5 minutes of your time, plus the wait for the team</p>
+  <h1>First pulse from your agent</h1>
+  <p class="lede">Install the skill, connect it once, ask the team one question, and get the answers and a report back. After this, "ask the team …" works in every project on this machine.</p>
+
+  <div class="facts">
+    <div><b>What you get</b>An agent that can ask your team a question, hand out a link and a QR, and get the answers back as data.</div>
+    <div><b>What you need</b>A coding agent that supports skills and a Google account. No key to copy, nothing to configure.</div>
+  </div>
+
+  <section class="step">
+    <span class="n">Step 1 of 7</span>
+    <h2>Install the skill</h2>
+    <p>One line in any terminal. It asks which agent you use and copies the skill into that agent's skills folder.</p>
+<pre class="term"><span class="p">$</span> curl -LsSf https://ourpulse.click/install.sh | sh
+Where should the OurPulse skill go?
+  1) Claude Code                 ~/.claude/skills
+  2) Shared .agents folder       ~/.agents/skills   (Codex, Gemini CLI, Copilot, Cursor, OpenCode)
+  3) Gemini CLI                  ~/.gemini/skills
+  4) GitHub Copilot / VS Code    ~/.copilot/skills
+  5) Cursor                      ~/.cursor/skills
+  6) OpenCode                    ~/.config/opencode/skills
+  7) Another folder
+Choice [1]: <span class="d">⏎</span>
+Downloading the OurPulse skill (main)...
+<span class="ok">Installed OurPulse skill 1.5.0 to ~/.claude/skills/ourpulse</span></pre>
+    <p>On Windows: <code>irm https://ourpulse.click/install.ps1 | iex</code>. Inside Claude Code the plugin route works too: <code>/plugin marketplace add https://ourpulse.click/marketplace.json</code>, then <code>/plugin install ourpulse@ourpulse</code>. Pick one route, not both.</p>
+  </section>
+
+  <section class="step">
+    <span class="n">Step 2 of 7</span>
+    <h2>Ask your first question</h2>
+    <p>Open your agent in any project, Claude Code, Codex, Gemini CLI, Copilot, Cursor or OpenCode, and say what you want to ask, in plain words:</p>
+    <p class="say">ask the team how each of us uses AI day to day, before the hackathon. 12 people, anonymous, close Thursday 10:00</p>
+    <p>The skill checks whether this machine is connected. It is not yet, so it starts the sign-in and tells you to approve in the browser.</p>
+<pre class="term"><span class="d">Agent:</span> Approve the connection in the browser that just opened, then I will continue.
+Open this link and press Approve (code DWUN-H3RB):
+https://ourpulse.click/cli/verify?code=DWUN-H3RB</pre>
+  </section>
+
+  <section class="step">
+    <span class="n">Step 3 of 7</span>
+    <h2>Approve in the browser</h2>
+    <p>The page names the agent and the account. Sign in with Google if you are not already, check the code matches the one in the terminal, and press <b>Approve</b>.</p>
+    <figure><img src="/guides/img/first-pulse-approve.jpg" width="963" height="820" alt="The OurPulse connect page: Connect Claude Code on my-laptop? with Deny and Approve buttons" loading="lazy" /><figcaption>The key is created at this moment and handed to the terminal. It is never shown to you and never pasted anywhere.</figcaption></figure>
+    <p>Wrong account? Use the link under the buttons to switch Google accounts before approving.</p>
+  </section>
+
+  <section class="step">
+    <span class="n">Step 4 of 7</span>
+    <h2>Check the draft and say yes</h2>
+    <p>Back in the terminal the skill continues on its own. It shows the pulse it is about to create, with the account it will use and the times in your zone.</p>
+<pre class="term">Pulse: AI in my daily work
+Account: you@example.com (global)
+Opens:  now
+Closes: Thu 1 Oct, 10:00 EEST  (2 days)
+Access: anyone with the link · pseudonyms · one answer per browser
+Expected: 12 people
+
+1. [multi]   In which stages do you use AI every week?  — Ticket / requirements / Design / Writing new code / Changing existing code / Tests / Debugging / Code review / Docs / Ops / None of these
+2. [multi]   Of the stages you use AI in, where do you let it do the work and only check the outcome?  — same list
+3. [multi, up to 3]  Where does AI let you down most?  — same list
+4. [multi, up to 3]  What stops you from using AI more?  — Usage limits / No access to the model I want / Output not reliable enough / It doesn't know our codebase / Checking costs more than it saves / Unsure what I may share / No time to learn / Doesn't help my kind of work / Something else / Nothing
+5. [single]  Which stage would you hand over to AI next?  — same list
+6. [text]    The last time AI wasted your time or surprised you: what happened?
+
+Create it?</pre>
+    <p>Nothing exists until you answer. Say <b>yes</b>, or change something first, for example "drop question 2" or "close Thursday 9:00".</p>
+  </section>
+
+  <section class="step">
+    <span class="n">Step 5 of 7</span>
+    <h2>Share the link or the QR</h2>
+    <p>You get the link, the QR and the live results page. Paste the link into Slack, Teams or mail and it unfurls with the title, the window and the QR. For the hackathon the link went into the invitation email. Say yes to the invite screen when you are in a room with a projector.</p>
+    <figure><img src="/guides/img/first-pulse-invite.jpg" width="1100" height="779" alt="The invite screen for AI in my daily work: a large QR code, the short link, and the pulse state" loading="lazy" /><figcaption>The invite screen. A big QR, the short link, and a countdown to close.</figcaption></figure>
+  </section>
+
+  <section class="step">
+    <span class="n">Step 6 of 7</span>
+    <h2>Get the answers back</h2>
+    <p>The skill waits for the close, or tells you how to come back later. When it closes you get a six-line summary in the chat, and the owner page shows the same numbers.</p>
+<pre class="term">AI in my daily work · closed Thu 1 Oct 10:00 · 10 of 12 answered
+Use AI every week: Writing new code 10 · Changing existing code 10 · Tests 10 · Docs 9
+Hand over and only check: Tests 9 · Docs 8
+Lets you down most: Writing new code 9 · Changing existing code 7 · Debugging 3
+Stops you: Usage limits 5 · Nothing 4
+Comments (8): most describe the model looping or confidently wrong on a hard issue.
+Finding: everyone uses it for new code, and that is also where it fails most.</pre>
+    <figure><img src="/guides/img/first-pulse-results.jpg" width="1100" height="779" alt="The owner results page: 10 of 12 answered, a bar per option for the first question" loading="lazy" /><figcaption>Owner results page. Bars per option, a mean per scale, text answers listed. No names.</figcaption></figure>
+    <p>The answers are now in your session, so keep asking: "do the people stopped by quota also say they would hand over tests next?"</p>
+  </section>
+
+  <section class="step">
+    <span class="n">Step 7 of 7</span>
+    <h2>Write the report and push it</h2>
+    <p>When the numbers need to reach people who were not in the chat, say:</p>
+    <p class="say">write the report and push it</p>
+    <p>The skill reads the results and the comments, asks one question, and opens a preview in your browser.</p>
+<pre class="term"><span class="d">Agent:</span> Include quotes from the comments? Comments are anonymous, but a teammate
+may recognise an incident or a way of writing. On no, you get themes and counts only.
+<span class="p">You:</span> no quotes
+
+<span class="d">Agent:</span> Report: AI in my daily work
+Account: you@example.com (global)
+Contents: 4 key numbers · 5 charts · 4 comment themes, no quotes · 3 actions
+Preview: open in your browser
+Sharing: only you get the link. Anyone you give it to can read the report without signing in.
+
+Push it?
+<span class="p">You:</span> yes
+<span class="d">Agent:</span> Pushed. https://ourpulse.click/r/report/…</pre>
+    <p>Ask for changes before saying yes: "lead with the quota finding", "drop the actions". Each change reopens the preview.</p>
+    <figure><img src="/guides/img/first-pulse-report.jpg" width="1100" height="679" alt="A pushed report: title, window and response rate, a one-paragraph headline, four key numbers, and a chart per question" loading="lazy" /><figcaption>A pushed report, as the link shows it. One headline paragraph, the key numbers, then a chart per question and the comment themes.</figcaption></figure>
+    <p>Only you receive the link. Pushing again replaces the report and keeps the link. The owner pulse page shows a Report card with copy, open and remove. Want a file in the repo instead? Say "write it up in docs/retro.md" and nothing is pushed.</p>
+  </section>
+
+  <section class="step">
+    <h2>That was the only setup</h2>
+    <p>The key is saved under <code>~/.config/ourpulse/</code>, never in the project. Revoke it any time at <a href="https://ourpulse.click/me/keys">ourpulse.click/me/keys</a>. To use a work account in one repo, say "use another account in this folder".</p>
+  </section>
+
+  <p class="foot"><a href="/">Home</a> <a href="/guides/">Guides</a> <a href="/privacy">Privacy</a> <a href="/terms">Terms</a> <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a></p>
+</div>
+<!-- Cloudflare Web Analytics: cookieless page-view count on the public landing site only; the app pages carry no analytics script. -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4b1772fc0d824607872009bd4c4ebe4b"}'></script>
+</body>
+</html>
