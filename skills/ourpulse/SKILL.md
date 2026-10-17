@@ -85,7 +85,7 @@ Both are stored under `~/.config/ourpulse/`; nothing is written into the project
    don't know it; never assume UTC), e.g. `date -j -f '%Y-%m-%d %H:%M' '2026-10-03 17:00' +%s000` on
    macOS or `date -d '2026-10-03 17:00' +%s000` on Linux. Answers are refused after `closes_at`, and the
    link shows "not open yet" before `opens_at`. Set `"access": "google"` when one answer per person matters (votes, decisions with
-   stakes); add `"named": true` on top only when the user wants real names (sign-ups, accountability). Group questions with `"section": "Name"` when the pulse has more than one topic (all questions or none). Reuse one option list across two questions with
+   stakes); add `"named": true` on top only when the user wants real names (sign-ups, accountability). Group questions with `"section": "Name"` when the pulse has more than one topic (all questions or none). When one answer makes the rest pointless ("Never" to "How often do you drink coffee?"), put `"ends_on": ["Never"]` on that `single` question: the pulse ends there for that person, and say so in the draft, e.g. `— Never / Once a day / Several  (Never ends the pulse)`. Reuse one option list across two questions with
    `"option_sets": {"axes": [...]}` and `"option_set": "axes"` to get a map view.
 
 4. **Hand back the links, then offer the invite screen.** In one short message give the user `url` and
@@ -130,7 +130,7 @@ Both are stored under `~/.config/ourpulse/`; nothing is written into the project
 | `scale` | optional `max` 2–10 (default 5), optional `labels: [low, high]` | mean + distribution |
 | `text` | none | list of strings |
 
-Any type also takes optional `section` (a group heading; all questions or none).
+Any type also takes optional `section` (a group heading; all questions or none). `single` also takes `ends_on` (options that end the pulse early).
 
 ## Reports
 
@@ -150,7 +150,7 @@ Lowest score: "I knew what to work on each day".
 ```
 
 First line: title, state with the close time in the user's zone, `n of expected answered` (just
-`n answered` when `expected` is unset). Then one line per question in pulse order: choices as
+`n answered` when `expected` is unset), plus `k ended early` when `ended_early` is above zero. Then one line per question in pulse order: choices as
 `option count`, highest first, zero counts left out; scale and agree as `mean / max` to one decimal;
 text as the count and one sentence on what most say. Last line: the one finding that matters for
 the user's task. With sections, put the section name on its own line above its questions.

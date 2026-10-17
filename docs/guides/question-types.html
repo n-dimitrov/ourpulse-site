@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>The five question types · OurPulse guides</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/fonts/fonts.css" />
+<link rel="canonical" href="https://ourpulse.click/guides/question-types" />
+<meta name="description" content="What each OurPulse question type looks like on the respondent's phone, how to write it on the form or from your agent, and what comes back. Plus shared option lists, sections, and an answer that ends the pulse." />
+<meta property="og:title" content="The five question types · OurPulse" />
+<meta property="og:description" content="single, multi, agree, scale and text: what they look like on a phone, how to write them, what comes back." />
+<meta property="og:image" content="https://ourpulse.click/og.png" />
+<!-- Tokens and base styles mirror src/lib/page.ts in the OurPulse app; keep them in step. Screenshots: real pulses on ourpulse.click, phone width, captured 17 Oct 2026. -->
+<style>
+  /* Layout: one reading column like the existing guide, each type a section with a phone mock on the right (stacks on phones). */
+  :root {
+    --bg: #F6F4EE; --ink: #1B1A17; --muted: #5C5A55; --faint: #7A776F; --line: #E2DED4; --line-strong: #CFCABD;
+    --card: #FFFFFF; --track: #E6E2D8; --accent: #2B4FD1; --accent-soft: #EEF1FD; --accent-ink: #FFFFFF; --ok: #0F766E;
+    --term-bg: #1B1A17; --term-ink: #F1EFE9; --term-dim: #A8A49B;
+    --display: Outfit, 'Instrument Sans', sans-serif; --body: 'Instrument Sans', system-ui, sans-serif; --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    --bg: #17171A; --ink: #F1EFE9; --muted: #A8A49B; --faint: #8B877E; --line: #34343A; --line-strong: #44444B;
+    --card: #202024; --track: #2C2C31; --accent: #6D8CFF; --accent-soft: #23283F; --accent-ink: #0F1330; --ok: #4FD1C5; --term-bg: #0F0F12;
+    color-scheme: dark;
+  } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -.3px; margin: 0; text-wrap: balance; }
+  h1 { font-size: 1.85rem; line-height: 1.2; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1rem; }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  p, ul { margin: .6rem 0 0; }
+  ul { padding-left: 1.25rem; }
+  code { font-size: .9em; background: var(--track); padding: .05em .35em; border-radius: 4px; font-family: var(--mono); }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 1.25rem 1.25rem 3rem; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 44px; }
+  .brand { display: inline-flex; align-items: center; gap: .4em; font-family: var(--display); font-weight: 700; font-size: 1.125rem; color: inherit; text-decoration: none; }
+  .brand svg { width: 1.3em; height: 1.3em; color: var(--accent); flex: none; }
+  .top a.guides { font-size: .9rem; color: var(--muted); text-decoration: none; }
+  .eyebrow { margin-top: 2rem; font-size: .8rem; color: var(--faint); text-transform: uppercase; letter-spacing: .06em; }
+  .lede { color: var(--muted); font-size: 1.05rem; max-width: 36rem; }
+  .toc { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
+  .toc a { font-size: .85rem; text-decoration: none; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: .3rem .8rem; }
+  .toc a b { color: var(--accent); font-family: var(--mono); font-weight: 600; margin-right: .35em; }
+  .pick { margin-top: 1.5rem; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .pick table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  .pick th, .pick td { text-align: left; padding: .55rem .8rem; border-top: 1px solid var(--line); vertical-align: top; }
+  .pick th { border-top: 0; background: var(--card); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--faint); font-weight: 600; }
+  .pick td:first-child { font-family: var(--mono); font-weight: 600; color: var(--accent); white-space: nowrap; }
+  .type { margin-top: 2.75rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1fr) 15.5rem; gap: 1.5rem 2rem; align-items: start; }
+  .type > .txt { min-width: 0; }
+  .type .tag { display: inline-block; font-family: var(--mono); font-size: .8rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: .15em .55em; border-radius: 6px; margin-bottom: .4rem; }
+  .type .result { margin-top: .9rem; font-size: .92rem; color: var(--muted); }
+  .type .result b { color: var(--ink); font-weight: 600; }
+  pre { background: var(--track); border-radius: 8px; padding: .7rem .9rem; margin: .75rem 0 0; overflow-x: auto; font: .82rem/1.5 var(--mono); }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  pre.term { background: var(--term-bg); color: var(--term-ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+  pre.term .d { color: var(--term-dim); }
+  .lbl { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--faint); margin-top: 1rem; }
+  figure { margin: 0; position: sticky; top: 1rem; min-width: 0; }
+  figure img { display: block; width: 100%; max-width: min(100%, 15.5rem); height: auto; margin: 0 auto; border: 1px solid var(--line); border-radius: 14px; background: #F6F4EE; }
+  figcaption { font-size: .8rem; color: var(--muted); margin-top: .4rem; text-align: center; }
+  /* Results mini */
+  .res { margin-top: .75rem; border: 1px solid var(--line); border-radius: 10px; background: var(--card); padding: .7rem .85rem; font-size: .85rem; }
+  .res .row { display: grid; grid-template-columns: 9rem 1fr 2rem; align-items: center; gap: .6rem; margin-top: .3rem; }
+  .res .row:first-child { margin-top: 0; }
+  .res .bar { height: 8px; background: var(--track); border-radius: 4px; overflow: hidden; }
+  .res .bar i { display: block; height: 100%; background: var(--accent); }
+  .res .n { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .res .hist { display: flex; align-items: flex-end; gap: .35rem; height: 48px; margin-top: .3rem; }
+  .res .hist i { flex: 1; background: var(--accent); border-radius: 3px 3px 0 0; opacity: .85; }
+  .res .ax { display: flex; justify-content: space-between; font-size: .7rem; color: var(--faint); margin-top: .25rem; }
+  .res .mean { font-family: var(--display); font-weight: 600; }
+  .res li { margin-top: .25rem; }
+  .tricks { margin-top: 2.75rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  .trick { margin-top: 1.75rem; display: grid; grid-template-columns: minmax(0, 1fr) 15.5rem; gap: 1.25rem 2rem; align-items: start; }
+  .trick .txt { min-width: 0; }
+  .foot { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+  .foot a { color: inherit; }
+  @media (max-width: 680px) {
+    .type, .trick { grid-template-columns: 1fr; }
+    figure { position: static; }
+    .res .row { grid-template-columns: 6.5rem 1fr 2rem; }
+  }
+  .toc a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="brand" href="/"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</a><a class="guides" href="/guides/">Guides</a></div>
+
+  <p class="eyebrow">Guide · 4 minutes</p>
+  <h1>The five question types</h1>
+  <p class="lede">Every pulse is built from five kinds of question. This page shows what each one looks like on the respondent's phone, how to write it, and what comes back. Then three small tricks: shared option lists, sections, and an answer that ends the pulse.</p>
+
+  <div class="toc">
+    <a href="#single"><b>single</b>one choice</a>
+    <a href="#multi"><b>multi</b>several choices</a>
+    <a href="#agree"><b>agree</b>rate a statement</a>
+    <a href="#scale"><b>scale</b>a number from 1 to N</a>
+    <a href="#text"><b>text</b>free text</a>
+    <a href="#tricks">Tricks</a>
+  </div>
+
+  <div class="pick">
+    <table>
+      <thead><tr><th>Type</th><th>Reach for it when</th><th>You get back</th></tr></thead>
+      <tbody>
+        <tr><td>single</td><td>The team has to decide: a date, an option, a winner.</td><td>A count per option</td></tr>
+        <tr><td>multi</td><td>Priorities or availability: "which days", "top three".</td><td>A count per option</td></tr>
+        <tr><td>agree</td><td>Statements people rate, as in a retro. Several in a row share one screen.</td><td>Mean and distribution</td></tr>
+        <tr><td>scale</td><td>A numeric rating: confidence, likelihood, NPS-style 1 to 10.</td><td>Mean and distribution</td></tr>
+        <tr><td>text</td><td>Only when the words matter. One per pulse is usually enough.</td><td>The list of answers</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- single -->
+  <section class="type" id="single">
+    <div class="txt">
+      <span class="tag">single</span>
+      <h2>One choice</h2>
+      <p>Options as cards, tap one. Use it for anything the team has to settle: which day, which logo, which option to ship. Two to twelve options read well on a phone.</p>
+      <span class="lbl">On the form, one line</span>
+<pre><code>single: Which day works best? [Mon, Tue, Wed]</code></pre>
+      <span class="lbl">From your agent, or the API</span>
+<pre><code>{ "type": "single", "prompt": "Which day works best?",
+  "options": ["Mon", "Tue", "Wed"] }</code></pre>
+      <span class="lbl">Results</span>
+      <div class="res">
+        <div class="row"><span>Tue</span><div class="bar"><i style="width:62%"></i></div><span class="n">5</span></div>
+        <div class="row"><span>Wed</span><div class="bar"><i style="width:25%"></i></div><span class="n">2</span></div>
+        <div class="row"><span>Mon</span><div class="bar"><i style="width:12%"></i></div><span class="n">1</span></div>
+      </div>
+    </div>
+    <figure><img src="/guides/img/type-single.jpg" width="500" height="625" alt="A single-choice question on a phone: Which day works best for the retro? with Mon, Tue and Wed as cards, Tue selected" loading="lazy" /><figcaption>Tap one card. Next is always in thumb reach.</figcaption></figure>
+  </section>
+
+  <!-- multi -->
+  <section class="type" id="multi">
+    <div class="txt">
+      <span class="tag">multi</span>
+      <h2>Several choices</h2>
+      <p>Checkboxes. Cap the picks when you want priorities rather than a wish list: with <code>multi(3)</code> the fourth box greys out until one is unticked. Leave it uncapped for availability questions.</p>
+      <span class="lbl">On the form</span>
+<pre><code>multi(3): What slowed us down most? [Unclear specs, Flaky tests, Reviews, On-call, Meetings]</code></pre>
+      <span class="lbl">From your agent, or the API</span>
+<pre><code>{ "type": "multi", "prompt": "What slowed us down most?",
+  "options": ["Unclear specs", "Flaky tests", "Reviews", "On-call", "Meetings"],
+  "max_picks": 3 }</code></pre>
+      <p class="result">Counts per option, like <b>single</b>. The results page notes that multiple picks were allowed, so the counts add up to more than the number of people.</p>
+    </div>
+    <figure><img src="/guides/img/type-multi.jpg" width="500" height="625" alt="A multiple-choice question: What slowed us down most? with five checkboxes, two ticked, hint pick up to 3" loading="lazy" /><figcaption>The hint says how many picks are allowed.</figcaption></figure>
+  </section>
+
+  <!-- agree -->
+  <section class="type" id="agree">
+    <div class="txt">
+      <span class="tag">agree</span>
+      <h2>Rate a statement</h2>
+      <p>A five-point switch from Fully disagree to Fully agree, with the word shown as you slide. Write the prompt as a statement, not a question. Consecutive agree lines share one screen, so a retro with four statements is one tap each on a single page.</p>
+      <p><code>agree(7)</code> gives seven points; <code>[Never, Always]</code> after the prompt renames the ends.</p>
+      <span class="lbl">On the form</span>
+<pre><code>agree: We shipped what we planned
+agree: I knew what to work on each day</code></pre>
+      <span class="lbl">From your agent, or the API</span>
+<pre><code>{ "type": "agree", "prompt": "We shipped what we planned" },
+{ "type": "agree", "prompt": "I knew what to work on each day" }</code></pre>
+      <span class="lbl">Results</span>
+      <div class="res">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span>I knew what to work on each day</span><span class="mean">2.6 <span class="n">/ 5</span></span></div>
+        <div class="bar" style="margin-top:.45rem;height:10px;position:relative"><i style="width:40%;opacity:.35"></i><i style="position:absolute;left:40%;top:-2px;width:3px;height:14px;border-radius:2px"></i></div>
+        <div class="ax"><span>Fully disagree</span><span>Fully agree</span></div>
+      </div>
+    </div>
+    <figure><img src="/guides/img/type-agree.jpg" width="500" height="625" alt="Two agree statements on one screen under a Team section heading, the first set to 4, Agree" loading="lazy" /><figcaption>Two statements, one screen. The word changes as you slide.</figcaption></figure>
+  </section>
+
+  <!-- scale -->
+  <section class="type" id="scale">
+    <div class="txt">
+      <span class="tag">scale</span>
+      <h2>A number from 1 to N</h2>
+      <p>Number tiles. Default 1 to 5, anything from 2 to 10 with <code>scale(10)</code>. Two labels in brackets name the ends. Use it for confidence, likelihood, effort, or an NPS-style "would you recommend".</p>
+      <span class="lbl">On the form</span>
+<pre><code>scale(10): How likely are you to recommend this format? [Not at all, Definitely]</code></pre>
+      <span class="lbl">From your agent, or the API</span>
+<pre><code>{ "type": "scale", "prompt": "How likely are you to recommend this format?",
+  "max": 10, "labels": ["Not at all", "Definitely"] }</code></pre>
+      <span class="lbl">Results</span>
+      <div class="res">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span>8 answered</span><span class="mean">7.4 <span class="n">/ 10</span></span></div>
+        <div class="hist"><i style="height:0"></i><i style="height:0"></i><i style="height:0"></i><i style="height:20%"></i><i style="height:0"></i><i style="height:40%"></i><i style="height:60%"></i><i style="height:100%"></i><i style="height:60%"></i><i style="height:20%"></i></div>
+        <div class="ax"><span>1 · Not at all</span><span>10 · Definitely</span></div>
+      </div>
+    </div>
+    <figure><img src="/guides/img/type-scale.jpg" width="500" height="625" alt="A 1 to 10 scale as number tiles with 9 selected, ends labelled Not at all and Definitely" loading="lazy" /><figcaption>Number tiles, end labels under them.</figcaption></figure>
+  </section>
+
+  <!-- text -->
+  <section class="type" id="text">
+    <div class="txt">
+      <span class="tag">text</span>
+      <h2>Free text</h2>
+      <p>A text box, optional for the respondent, up to 2,000 characters. Use it when the words are the point: "one thing to change", "what happened the last time AI wasted your time". Your agent reads every answer and groups them into themes; the report quotes them only if you say so.</p>
+      <span class="lbl">On the form</span>
+<pre><code>text: One thing to change</code></pre>
+      <span class="lbl">From your agent, or the API</span>
+<pre><code>{ "type": "text", "prompt": "One thing to change" }</code></pre>
+      <span class="lbl">Results</span>
+      <div class="res">
+        <div style="margin-bottom:.3rem">6 answered</div>
+        <ul style="margin:0;padding-left:1.1rem;color:var(--muted)">
+          <li>Acceptance criteria before the sprint starts</li>
+          <li>Fewer meetings on Tuesday</li>
+          <li>I found out what done meant in the review.</li>
+        </ul>
+      </div>
+    </div>
+    <figure><img src="/guides/img/type-text.jpg" width="500" height="625" alt="A free text question, One thing to change, with a short answer typed in" loading="lazy" /><figcaption>Optional. Up to 2,000 characters.</figcaption></figure>
+  </section>
+
+  <!-- tricks -->
+  <section class="tricks" id="tricks">
+    <p class="eyebrow" style="margin-top:0">Three tricks</p>
+    <h2>Small things that make a pulse smarter</h2>
+
+    <div class="trick" id="ends">
+      <div class="txt">
+        <h3>An answer that ends the pulse</h3>
+        <p>When one answer makes the rest pointless, mark it with <code>!</code>. Someone who picks it goes straight to the last step. Only on <code>single</code>, and at least one option has to continue.</p>
+<pre><code>single: How often do you drink coffee? [Never!, Once a day, Several times a day]
+single: What type? [Espresso, Filter, Instant]
+text: Anything else?</code></pre>
+<pre><code>{ "type": "single", "prompt": "How often do you drink coffee?",
+  "options": ["Never", "Once a day", "Several times a day"],
+  "ends_on": ["Never"] }</code></pre>
+        <p class="result">Results say how many <b>ended early</b>. Skipped questions simply show fewer answers.</p>
+      </div>
+      <figure><img src="/guides/img/trick-ends.jpg" width="500" height="625" alt="The coffee question with Never selected and the counter reading 1 of 2" loading="lazy" /><figcaption>Never was tapped: the counter dropped from 1 of 4 to 1 of 2.</figcaption></figure>
+    </div>
+
+    <div class="trick" id="sets">
+      <div class="txt">
+        <h3>One list, two questions, a map</h3>
+        <p>Declare the options once with <code>@name = …</code> and reuse them. When two questions share a list, the results page adds a map: each option is a dot, placed by its count on question one against its count on question two. "What mattered most" against "what suffered most" is the classic.</p>
+<pre><code>@areas = Testing, Docs, Onboarding, Tooling
+single: What mattered most this sprint? [@areas]
+single: What suffered most? [@areas]</code></pre>
+<pre><code>{ "option_sets": { "areas": ["Testing", "Docs", "Onboarding", "Tooling"] },
+  "questions": [
+    { "type": "single", "prompt": "What mattered most this sprint?", "option_set": "areas" },
+    { "type": "single", "prompt": "What suffered most?", "option_set": "areas" } ] }</code></pre>
+      </div>
+      <div class="res" style="margin-top:0;align-self:start">
+        <div style="font-size:.75rem;color:var(--faint);text-transform:uppercase;letter-spacing:.06em">Map</div>
+        <svg viewBox="0 0 220 170" width="100%" aria-label="Map of four options by mattered most against suffered most" style="margin-top:.4rem;display:block">
+          <line x1="30" y1="140" x2="210" y2="140" stroke="var(--line-strong)" stroke-width="1"/>
+          <line x1="30" y1="140" x2="30" y2="10" stroke="var(--line-strong)" stroke-width="1"/>
+          <text x="120" y="162" font-size="9" fill="var(--faint)" text-anchor="middle" font-family="Instrument Sans, sans-serif">mattered most →</text>
+          <text x="12" y="80" font-size="9" fill="var(--faint)" text-anchor="middle" transform="rotate(-90 12 80)" font-family="Instrument Sans, sans-serif">suffered most →</text>
+          <circle cx="170" cy="40" r="7" fill="var(--accent)"/><text x="170" y="28" font-size="10" fill="var(--ink)" text-anchor="middle" font-family="Instrument Sans, sans-serif">Testing</text>
+          <circle cx="60" cy="120" r="7" fill="var(--accent)"/><text x="60" y="108" font-size="10" fill="var(--ink)" text-anchor="middle" font-family="Instrument Sans, sans-serif">Tooling</text>
+          <circle cx="95" cy="55" r="7" fill="var(--accent)"/><text x="95" y="43" font-size="10" fill="var(--ink)" text-anchor="middle" font-family="Instrument Sans, sans-serif">Docs</text>
+          <circle cx="140" cy="100" r="7" fill="var(--accent)"/><text x="140" y="88" font-size="10" fill="var(--ink)" text-anchor="middle" font-family="Instrument Sans, sans-serif">Onboarding</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="trick" id="sections">
+      <div class="txt">
+        <h3>Sections</h3>
+        <p>A <code>## Name</code> line groups every question below it under a heading. Respondents see the section name above the question, and the results page and the CSV carry it too. Use sections for all questions or none.</p>
+<pre><code>## Team
+agree: We help each other when stuck
+## Product
+agree: I understand why we build what we build</code></pre>
+<pre><code>{ "type": "agree", "prompt": "We help each other when stuck", "section": "Team" }</code></pre>
+      </div>
+      <figure><img src="/guides/img/type-agree.jpg" width="500" height="625" alt="The agree screen with a Team section heading above the question" loading="lazy" /><figcaption>The section name sits above the question.</figcaption></figure>
+    </div>
+  </section>
+
+  <p style="margin-top:2.5rem;color:var(--muted)">That is the whole vocabulary. Fifty questions per pulse at most, though one to five is where a pulse stays a pulse. Say it to your agent in plain words and it picks the types for you; the draft shows them in brackets before anything is created.</p>
+
+  <p class="foot"><a href="/">Home</a> <a href="/guides/">Guides</a> <a href="/privacy">Privacy</a> <a href="/terms">Terms</a> <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a></p>
+</div>
+<!-- Cloudflare Web Analytics: cookieless page-view count on the public landing site only; the app pages carry no analytics script. -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4b1772fc0d824607872009bd4c4ebe4b"}'></script>
+</body>
+</html>
