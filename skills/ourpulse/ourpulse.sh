@@ -126,6 +126,10 @@ case "${1:-}" in
     parts=""; [ "${3:--}" != - ] && parts="\"closes_at\": $3"
     [ -n "${4:-}" ] && parts="${parts:+$parts, }\"opens_at\": $4"
     api -X PATCH "$BASE/api/surveys/$2" -d "{$parts}" ;;
+  set)      # set <id> allow_change|show_names on|off   -> flip a per-pulse switch
+    case "${3:-}" in allow_change|show_names) ;; *) echo "usage: ourpulse.sh set <id> allow_change|show_names on|off" >&2; exit 2 ;; esac
+    case "${4:-}" in on) v=true ;; off) v=false ;; *) echo "usage: ourpulse.sh set <id> allow_change|show_names on|off" >&2; exit 2 ;; esac
+    api -X PATCH "$BASE/api/surveys/$2" -d "{\"$3\": $v}" ;;
   report)   # report <id> <html-file>   -> push the report body; prints report_url. Replaces an earlier report, same link.
     [ -r "${3:-}" ] || { echo "usage: ourpulse.sh report <id> <html-file>" >&2; exit 2; }
     curl -sS -X PUT -H "Authorization: Bearer $KEY" -H "Content-Type: text/html; charset=utf-8" --data-binary "@$3" "$BASE/api/surveys/$2/report" ;;
@@ -149,6 +153,6 @@ case "${1:-}" in
     done ;;
   *)
     echo "usage: ourpulse.sh login [--local|--global] | logout [--local|--global] | check | create <file|-> | get <id> | list | results <id> | csv <id> | invite <id> | wait <id> [secs]" >&2
-    echo "       ourpulse.sh pause|resume|close|reset <id> | reopen <id> [days] | schedule <id> <closes-ms|-> [opens-ms] | delete <id>" >&2
+    echo "       ourpulse.sh pause|resume|close|reset <id> | reopen <id> [days] | schedule <id> <closes-ms|-> [opens-ms] | set <id> allow_change|show_names on|off | delete <id>" >&2
     echo "       ourpulse.sh report-preview <html-file> | report <id> <html-file> | report-delete <id>" >&2; exit 2 ;;
 esac

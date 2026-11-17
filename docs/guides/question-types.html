@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>The five question types · OurPulse guides</title>
+<title>The six question types · OurPulse guides</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="/fonts/fonts.css" />
 <link rel="canonical" href="https://ourpulse.click/guides/question-types" />
-<meta name="description" content="What each OurPulse question type looks like on the respondent's phone, how to write it on the form or from your agent, and what comes back. Plus shared option lists, sections, and an answer that ends the pulse." />
-<meta property="og:title" content="The five question types · OurPulse" />
-<meta property="og:description" content="single, multi, agree, scale and text: what they look like on a phone, how to write them, what comes back." />
+<meta name="description" content="What each OurPulse question type looks like on the respondent's phone, how to write it on the form or from your agent, and what comes back. Plus shared option lists, sections, an answer that ends the pulse, changing answers and names on the results screen." />
+<meta property="og:title" content="The six question types · OurPulse" />
+<meta property="og:description" content="single, multi, agree, scale, text and meeting: what they look like on a phone, how to write them, what comes back." />
 <meta property="og:image" content="https://ourpulse.click/og.png" />
-<!-- Tokens and base styles mirror src/lib/page.ts in the OurPulse app; keep them in step. Screenshots: real pulses on ourpulse.click, phone width, captured 17 Oct 2026. -->
+<!-- Tokens and base styles mirror src/lib/page.ts in the OurPulse app; keep them in step. Screenshots: real pulses on ourpulse.click, phone width, captured 17 Oct 2026; the meeting screenshot is from a local build, 17 Nov 2026. -->
 <style>
   /* Layout: one reading column like the existing guide, each type a section with a phone mock on the right (stacks on phones). */
   :root {
@@ -94,8 +94,8 @@
   <div class="top"><a class="brand" href="/"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</a><a class="guides" href="/guides/">Guides</a></div>
 
   <p class="eyebrow">Guide · 4 minutes</p>
-  <h1>The five question types</h1>
-  <p class="lede">Every pulse is built from five kinds of question. This page shows what each one looks like on the respondent's phone, how to write it, and what comes back. Then three small tricks: shared option lists, sections, and an answer that ends the pulse.</p>
+  <h1>The six question types</h1>
+  <p class="lede">Every pulse is built from six kinds of question. This page shows what each one looks like on the respondent's phone, how to write it, and what comes back. Then three small tricks (shared option lists, sections, an answer that ends the pulse) and two switches: changing answers, and names on the results screen.</p>
 
   <div class="toc">
     <a href="#single"><b>single</b>one choice</a>
@@ -103,7 +103,9 @@
     <a href="#agree"><b>agree</b>rate a statement</a>
     <a href="#scale"><b>scale</b>a number from 1 to N</a>
     <a href="#text"><b>text</b>free text</a>
+    <a href="#meeting"><b>meeting</b>find a time</a>
     <a href="#tricks">Tricks</a>
+    <a href="#switches">Switches</a>
   </div>
 
   <div class="pick">
@@ -115,6 +117,7 @@
         <tr><td>agree</td><td>Statements people rate, as in a retro. Several in a row share one screen.</td><td>Mean and distribution</td></tr>
         <tr><td>scale</td><td>A numeric rating: confidence, likelihood, NPS-style 1 to 10.</td><td>Mean and distribution</td></tr>
         <tr><td>text</td><td>Only when the words matter. One per pulse is usually enough.</td><td>The list of answers</td></tr>
+        <tr><td>meeting</td><td>Finding a time: which slot, which day, what hour.</td><td>Yes, tentative and no per slot, and the best slot</td></tr>
       </tbody>
     </table>
   </div>
@@ -224,6 +227,35 @@ agree: I knew what to work on each day</code></pre>
     <figure><img src="/guides/img/type-text.jpg" width="500" height="625" alt="A free text question, One thing to change, with a short answer typed in" loading="lazy" /><figcaption>Optional. Up to 2,000 characters.</figcaption></figure>
   </section>
 
+  <!-- meeting -->
+  <section class="type" id="meeting">
+    <div class="txt">
+      <span class="tag">meeting</span>
+      <h2>Find a time</h2>
+      <p>Propose up to twenty slots; each person marks every slot Yes, Tentative or No. A slot they leave untouched counts as No, so a long list stays quick. The number in brackets is the meeting length in minutes and adds the end time to each slot; leave it out if you do not need it.</p>
+      <p>A slot is a date and time, a date only, or a time only. Use one kind per question. Date-and-time slots are read in your time zone on the form and shown to each respondent in theirs; dates and times on their own are shown as written.</p>
+      <span class="lbl">On the form</span>
+<pre><code>meeting(30): When can you join the next team sync? [2026-11-19 10:00, 2026-11-20 14:00, 2026-11-23 09:30]
+meeting: Which day works for the offsite? [2026-12-03, 2026-12-04, 2026-12-10]
+meeting: What time suits the daily? [09:00, 09:30, 13:00]</code></pre>
+      <span class="lbl">From your agent, or the API</span>
+<pre><code>{ "type": "meeting", "prompt": "When can you join the next team sync?",
+  "duration": 30,
+  "slots": ["2026-11-19T10:00+01:00", "2026-11-20T14:00+01:00", "2026-11-23T09:30+01:00"] }</code></pre>
+      <p class="result">Over the API a date-and-time slot carries its UTC offset (or <code>Z</code>, or unix ms), because there is no browser to tell the time zone.</p>
+      <span class="lbl">Results</span>
+      <div class="res">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.45rem"><span><b>Best slot</b> · Fri 20 Nov, 14:00</span><span class="n" style="white-space:nowrap">nobody said no</span></div>
+        <div class="row"><span>Fri 20 Nov, 14:00</span><div class="bar" style="display:flex"><i style="width:50%"></i><i style="width:50%;opacity:.4"></i></div><span class="n" style="white-space:nowrap">4·4·0</span></div>
+        <div class="row"><span>Mon 23 Nov, 09:30</span><div class="bar" style="display:flex"><i style="width:87.5%"></i></div><span class="n" style="white-space:nowrap">7·0·1</span></div>
+        <div class="row"><span>Thu 19 Nov, 10:00</span><div class="bar" style="display:flex"><i style="width:62.5%"></i><i style="width:12.5%;opacity:.4"></i></div><span class="n" style="white-space:nowrap">5·1·2</span></div>
+        <div class="ax"><span>solid: yes · light: tentative</span><span>yes · tentative · no</span></div>
+      </div>
+      <p class="result">Slots are sorted best first. The <b>best slot</b> has the fewest No, then the most Yes: a time everybody can make beats one with more firm yeses and an absentee. On your own results page each slot also lists who said Yes and who is Tentative, when the pulse has names or pseudonyms.</p>
+    </div>
+    <figure><img src="/guides/img/type-meeting.jpg" width="500" height="740" alt="A meeting question on a phone: When can you join the next team sync? with three date and time slots, each with a Yes, Tentative, No switch" loading="lazy" /><figcaption>One switch per slot. Times are in the respondent's own zone.</figcaption></figure>
+  </section>
+
   <!-- tricks -->
   <section class="tricks" id="tricks">
     <p class="eyebrow" style="margin-top:0">Three tricks</p>
@@ -282,6 +314,28 @@ agree: I understand why we build what we build</code></pre>
 <pre><code>{ "type": "agree", "prompt": "We help each other when stuck", "section": "Team" }</code></pre>
       </div>
       <figure><img src="/guides/img/type-agree.jpg" width="500" height="625" alt="The agree screen with a Team section heading above the question" loading="lazy" /><figcaption>The section name sits above the question.</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- switches -->
+  <section class="tricks" id="switches">
+    <p class="eyebrow" style="margin-top:0">Two switches</p>
+    <h2>Per pulse, both off unless you turn them on</h2>
+
+    <div class="trick" id="change" style="grid-template-columns:1fr">
+      <div class="txt">
+        <h3>Let people change their answers</h3>
+        <p>Normally an answer is final. With this on, the thanks page and the "You already answered" page offer <i>Change my answers</i>, and the form opens with the earlier answers filled in. It works until the pulse closes, in the browser the person answered in, and the count stays at one answer per person. Good for meeting questions, where plans move. Tick the box on the form, or switch it on and off later on the pulse page.</p>
+<pre><code>{ "title": "Team sync", "allow_change": true, "questions": [ … ] }</code></pre>
+      </div>
+    </div>
+
+    <div class="trick" id="names" style="grid-template-columns:1fr">
+      <div class="txt">
+        <h3>Show names on the results screen</h3>
+        <p>The shared results screen shows no names. With this on, it lists who said Yes and who is Tentative under each meeting slot, which is what a team wants on the meeting room TV. Other question types stay without names. It needs a pulse that has names: an open link (pseudonyms, or whatever people type) or Google sign-in with real names. Respondents are told on the form before they answer. You can hide the names at any time; switching them on is only possible before the first answer.</p>
+<pre><code>{ "title": "Team sync", "show_names": true, "questions": [ … ] }</code></pre>
+      </div>
     </div>
   </section>
 
