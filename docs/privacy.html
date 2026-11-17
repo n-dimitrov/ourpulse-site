@@ -50,7 +50,7 @@
   <div class="top"><a class="brand" href="/"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h14l8-22 10 32 8-18h12"/><circle cx="28" cy="14" r="5" fill="currentColor" stroke="none"/></svg>OurPulse</a></div>
 
   <h1 style="margin-top:2rem">Privacy policy</h1>
-  <p class="muted">Last updated 12 October 2026.</p>
+  <p class="muted">Last updated 17 November 2026.</p>
 
   <p>OurPulse lets a person (the <b>owner</b>) ask a group of people (the <b>respondents</b>) a few questions, and shows the answers as a whole. This page says what the service stores, why, for how long, who else touches it, and how to ask about it. It is written to match what the software actually does.</p>
 
@@ -75,12 +75,16 @@
     <li>No sign-in. A cookie set for that one pulse marks your browser as having answered, so the same browser cannot answer twice. It holds a random value, not your identity.</li>
     <li>Your answers are stored with a two-word pseudonym chosen at random, or with whatever name you typed over it. If you type your real name, it is stored with your answers and shown to the owner.</li>
     <li>OurPulse cannot otherwise tell who answered. The owner sees the pseudonym or typed name, the answers and the time.</li>
+    <li>The owner can choose to show names on the results screen. Then your pseudonym or typed name appears there next to the meeting times you marked yes or tentative, for anyone who has the results link. The answer form says so before you submit, and the owner cannot switch this on after people have answered.</li>
+    <li>A second cookie for that pulse holds a random secret, so the same browser can find its own answer again. It is used only when the owner lets respondents change their answers until the pulse closes. OurPulse stores a one-way hash of the secret with your answer; it says nothing about who you are.</li>
   </ul>
 
   <h3>Pulses that require Google sign-in</h3>
   <ul>
     <li>You sign in with Google so that each person can answer once. OurPulse keeps a one-way token derived from the pulse and your Google account; it blocks a second answer and cannot be reversed into your account, and it is never stored together with your answers.</li>
     <li>Your answers are stored without your name, unless the owner made the pulse <i>named</i>. The owner is told whether a pulse is named when they create it, and the answer form says so.</li>
+    <li>On a named pulse the owner can choose to show names on the results screen, next to the meeting times each person marked yes or tentative. The answer form says so before you submit. A pulse that is not named has no names to show.</li>
+    <li>A cookie for that pulse holds a random secret, so the same browser can change its answer when the owner allows that. It is not derived from your Google account, and OurPulse stores only a one-way hash of it with your answer.</li>
     <li>If you also own pulses, the same session cookie is used.</li>
   </ul>
 
@@ -93,6 +97,7 @@
     <tr><td>Session</td><td>Owners, and respondents on sign-in pulses</td><td>Keeps you signed in.</td><td>30 days</td></tr>
     <tr><td>Sign-in state</td><td>Anyone signing in</td><td>Protects the Google sign-in round-trip.</td><td>10 minutes</td></tr>
     <tr><td>One per pulse</td><td>Respondents on open pulses</td><td>Blocks a second answer from the same browser.</td><td>1 year</td></tr>
+    <tr><td>One per pulse</td><td>All respondents</td><td>Lets the same browser change its own answer while the pulse is open, if the owner allows it.</td><td>1 year</td></tr>
   </table>
   <p>Every cookie is needed for the service to work; none is used for analytics, advertising or tracking across sites, and no third-party cookies are set. That is why there is no cookie banner.</p>
   <p>Your browser's local storage keeps small preferences such as the speech language you picked. It never leaves your browser.</p>
@@ -140,7 +145,8 @@
     <li>On an open pulse, your answer carries only a pseudonym, unless you typed your name.</li>
     <li>On a Google sign-in pulse, the one-way token cannot be turned back into your account, so OurPulse cannot tell which answer is yours, unless the pulse is named.</li>
   </ul>
-  <p>The practical route is to ask the owner who sent you the link; they can remove a single response from their results page, by name on a named or open pulse, or by the time you answered on an anonymous one. If you do not know who the owner is, or they do not answer, write to <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a> with the pulse link and we will contact the owner or remove what can be identified.</p>
+  <p>If the owner lets respondents change their answers, you can change yours yourself until the pulse closes, in the browser you answered in.</p>
+  <p>The practical route otherwise is to ask the owner who sent you the link; they can remove a single response from their results page, by name on a named or open pulse, or by the time you answered on an anonymous one. If you do not know who the owner is, or they do not answer, write to <a href="mailto:hello@ourpulse.click">hello@ourpulse.click</a> with the pulse link and we will contact the owner or remove what can be identified.</p>
 
   <h2>Security</h2>
   <p>All traffic is over HTTPS. API keys are stored hashed. Pushed reports are served from a page that cannot run scripts or load outside resources. The one-way token for sign-in pulses is written in the same database transaction as the answer and is never joined to it.</p>

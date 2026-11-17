@@ -63,7 +63,7 @@ nothing is written into the project folder.
 
 Say "ask the team which day works for the demo, close in 2 hours", or `/ourpulse`. The skill drafts the questions, creates the pulse, gives you the link, QR, and a live results page, waits for the close, and summarises the numbers.
 
-Question types: single, multi, agree, scale, text, with optional sections.
+Question types: single, multi, agree, scale, text and meeting (find a time, with yes / tentative / no per slot), with optional sections. Per pulse, respondents can be allowed to change their answers until close, and names can be shown on the results screen.
 
 Afterwards, say "write the report and push it". The skill writes an HTML report from the results (key numbers, a chart per question, comment themes, proposed actions), asks whether to include quotes, opens a preview, and pushes it to the pulse once you approve. You get a link to share; nobody else does.
 
